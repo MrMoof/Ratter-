@@ -36,7 +36,8 @@ namespace Ratter
         RatterSettings Config = new RatterSettings();
         EveComFramework.Move.Move Move = EveComFramework.Move.Move.Instance;
         EveComFramework.Cargo.Cargo Cargo = EveComFramework.Cargo.Cargo.Instance;
-        EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
+        public EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
+        public EveComFramework.AutoModule.AutoModule AutoModule = EveComFramework.AutoModule.AutoModule.Instance;
 
         List<SystemScanResult> UsedAnomalies;
         Entity FirstWreck;

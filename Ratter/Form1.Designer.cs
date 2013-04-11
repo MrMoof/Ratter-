@@ -70,6 +70,7 @@
             this.tabPage8 = new System.Windows.Forms.TabPage();
             this.SecurityConfig = new System.Windows.Forms.Button();
             this.Toggle = new System.Windows.Forms.Button();
+            this.AutoModuleConfig = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -560,6 +561,7 @@
             // 
             // tabPage8
             // 
+            this.tabPage8.Controls.Add(this.AutoModuleConfig);
             this.tabPage8.Controls.Add(this.SecurityConfig);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
@@ -588,6 +590,16 @@
             this.Toggle.Text = "Start";
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.Click += new System.EventHandler(this.Toggle_Click);
+            // 
+            // AutoModuleConfig
+            // 
+            this.AutoModuleConfig.Location = new System.Drawing.Point(6, 39);
+            this.AutoModuleConfig.Name = "AutoModuleConfig";
+            this.AutoModuleConfig.Size = new System.Drawing.Size(230, 27);
+            this.AutoModuleConfig.TabIndex = 1;
+            this.AutoModuleConfig.Text = "AutoModule";
+            this.AutoModuleConfig.UseVisualStyleBackColor = true;
+            this.AutoModuleConfig.Click += new System.EventHandler(this.AutoModuleConfig_Click);
             // 
             // Ratter
             // 
@@ -670,6 +682,7 @@
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.Button SecurityConfig;
         private System.Windows.Forms.Button Toggle;
+        private System.Windows.Forms.Button AutoModuleConfig;
     }
 }
 

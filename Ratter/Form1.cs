@@ -13,7 +13,6 @@ namespace Ratter
     public partial class Ratter : Form
     {
         RatterSettings Config = new RatterSettings();
-        EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
 
         Core Bot = Core.Instance;
 
@@ -67,11 +66,6 @@ namespace Ratter
 
             DropoffBookmark.SelectedItem = Config.DropoffBookmark;
             Ammo.SelectedItem = Config.Ammo;
-        }
-
-        private void SecurityConfig_Click(object sender, EventArgs e)
-        {
-            Security.Configure();
         }
 
         private void Toggle_Click(object sender, EventArgs e)
@@ -207,6 +201,16 @@ namespace Ratter
         {
             Config.AmmoTrigger = AmmoTrigger.Value;
             AmmoTriggerLabel.Text = String.Format("Reload if less than {0}% ammo in cargo hold", Config.AmmoTrigger);
+        }
+
+        private void SecurityConfig_Click(object sender, EventArgs e)
+        {
+            Core.Instance.Security.Configure();
+        }
+
+        private void AutoModuleConfig_Click(object sender, EventArgs e)
+        {
+            Core.Instance.AutoModule.Configure();
         }
 
 
