@@ -98,8 +98,117 @@ namespace Ratter
 
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if (Anomalies.SelectedIndex > 0)
+            {
+                Anomalies.Items.Insert(Anomalies.SelectedIndex - 1, Anomalies.SelectedItem);
+                Anomalies.SelectedIndex = (Anomalies.SelectedIndex - 2);
+                Anomalies.Items.RemoveAt(Anomalies.SelectedIndex + 2);
+            }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (Anomalies.SelectedIndex != -1 && Anomalies.SelectedIndex < (Anomalies.Items.Count - 1))
+            {
+                int IndexToRemove = Anomalies.SelectedIndex;
+                Anomalies.Items.Insert(Anomalies.SelectedIndex + 2, Anomalies.SelectedItem);
+                Anomalies.SelectedIndex = (Anomalies.SelectedIndex + 2);
+                Anomalies.Items.RemoveAt(IndexToRemove);
+            }
+        }
+
+        private void WarpDistance_Scroll(object sender, EventArgs e)
+        {
+            Config.WarpDistance = WarpDistance.Value;
+            WarpDistanceLabel.Text = String.Format("Warp to {0} km", Config.WarpDistance);
+        }
+
+        private void Tether_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.MovementTether = Tether.Checked;
+        }
+
+        private void TetherPilot_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.CombatTetherPilot = TetherPilot.SelectedIndex.ToString();
+        }
+
+        private void Squat_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.Squat = Squat.Checked;
+        }
+
+        private void SpeedTank_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.SpeedTank = SpeedTank.Checked;
+        }
+
+        private void CombatTether_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.CombatTether = CombatTether.Checked;
+        }
+
+        private void KeepAtRange_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.KeepAtRange = KeepAtRange.Checked;
+        }
+
+        private void SpeedTankRange_Scroll(object sender, EventArgs e)
+        {
+            Config.SpeedTankRange = SpeedTankRange.Value;
+            SpeedTankRangeLabel.Text = String.Format("Speed tank at {0} km", Config.SpeedTankRange);
+        }
+
+        private void TargetSlots_Scroll(object sender, EventArgs e)
+        {
+            Config.TargetSlots = TargetSlots.Value;
+            TargetSlotsLabel.Text = String.Format("Use {0} target for weapons", Config.TargetSlots);
+        }
+
+        private void CargoThreshold_Scroll(object sender, EventArgs e)
+        {
+            Config.CargoThreshold = CargoThreshold.Value;
+            CargoThresholdLabel.Text = String.Format("Dropoff when cargo exceeds {0}%", Config.CargoThreshold);
+        }
+
+        private void DropoffBookmarkFilter_TextChanged(object sender, EventArgs e)
+        {
+            using (new EVEFrameLock())
+            {
+                DropoffBookmark.DataSource = Bookmark.All.Where(a => a.Title.Contains(DropoffBookmarkFilter.Text)).Select(a => a.Title).ToList();
+            }
+        }
+
+        private void DropoffBookmark_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.DropoffBookmark = DropoffBookmark.SelectedItem.ToString();
+        }
+
+        private void AmmoFilter_TextChanged(object sender, EventArgs e)
+        {
+            using (new EVEFrameLock())
+            {
+                Ammo.DataSource = MyShip.CargoBay.Items.Where(a => a.Type.Contains(AmmoFilter.Text)).Select(a => a.Type).ToList();
+            }
+        }
+
+        private void Ammo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config.Ammo = Ammo.SelectedItem.ToString();
+        }
+
+        private void AmmoQuantity_Scroll(object sender, EventArgs e)
+        {
+            Config.AmmoQuantity = AmmoQuantity.Value;
+            AmmoQuantityLabel.Text = string.Format("Fill {0}% of the cargo hold with ammo", Config.AmmoQuantity);
+        }
+
+        private void AmmoTrigger_Scroll(object sender, EventArgs e)
+        {
+            Config.AmmoTrigger = AmmoTrigger.Value;
+            AmmoTriggerLabel.Text = String.Format("Reload if less than {0}% ammo in cargo hold", Config.AmmoTrigger);
+        }
+
 
 
     }

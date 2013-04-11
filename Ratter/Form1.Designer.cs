@@ -106,6 +106,7 @@
             this.Tether.TabIndex = 4;
             this.Tether.Text = "Tether to fleet member";
             this.Tether.UseVisualStyleBackColor = true;
+            this.Tether.CheckedChanged += new System.EventHandler(this.Tether_CheckedChanged);
             // 
             // WarpDistanceLabel
             // 
@@ -162,6 +163,7 @@
             this.button3.Tag = "Move the selected Anomaly down in the priority list";
             this.button3.Text = "↓";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -415,6 +417,7 @@
                 "ng location and stop within 1km";
             this.Squat.Text = "Squat on first wreck";
             this.Squat.UseVisualStyleBackColor = true;
+            this.Squat.CheckedChanged += new System.EventHandler(this.Squat_CheckedChanged);
             // 
             // tabPage6
             // 
@@ -450,6 +453,7 @@
             this.CargoThreshold.Tag = resources.GetString("CargoThreshold.Tag");
             this.CargoThreshold.TickStyle = System.Windows.Forms.TickStyle.None;
             this.CargoThreshold.Value = 90;
+            this.CargoThreshold.Scroll += new System.EventHandler(this.CargoThreshold_Scroll);
             // 
             // groupBox2
             // 
@@ -476,6 +480,7 @@
             this.DropoffBookmark.Name = "DropoffBookmark";
             this.DropoffBookmark.Size = new System.Drawing.Size(210, 147);
             this.DropoffBookmark.TabIndex = 0;
+            this.DropoffBookmark.SelectedIndexChanged += new System.EventHandler(this.DropoffBookmark_SelectedIndexChanged);
             // 
             // tabPage7
             // 
@@ -551,6 +556,7 @@
             this.AmmoFilter.Name = "AmmoFilter";
             this.AmmoFilter.Size = new System.Drawing.Size(230, 20);
             this.AmmoFilter.TabIndex = 0;
+            this.AmmoFilter.TextChanged += new System.EventHandler(this.AmmoFilter_TextChanged);
             // 
             // tabPage8
             // 
@@ -577,7 +583,7 @@
             // 
             this.Toggle.Location = new System.Drawing.Point(12, 4);
             this.Toggle.Name = "Toggle";
-            this.Toggle.Size = new System.Drawing.Size(246, 28);
+            this.Toggle.Size = new System.Drawing.Size(250, 28);
             this.Toggle.TabIndex = 3;
             this.Toggle.Text = "Start";
             this.Toggle.UseVisualStyleBackColor = true;
