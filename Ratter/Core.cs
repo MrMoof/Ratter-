@@ -26,7 +26,13 @@ namespace Ratter
 
         private Core() : base()
         {
-
+            Rats.AddPriorityTargets();
+            Rats.AddNPCs();
+            Rats.AddTargetingMe();
+            Rats.Ordering = new EveComFramework.Targets.RatComparer();
+            NonFleetPlayers.AddNonFleetPlayers();
+            Wrecks.AddQuery(a => a.GroupID == Group.Wreck && a.HaveLootRights);
+            DefaultFrequency = 500;
         }
 
         #endregion
@@ -39,14 +45,14 @@ namespace Ratter
         public EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
         public EveComFramework.AutoModule.AutoModule AutoModule = EveComFramework.AutoModule.AutoModule.Instance;
 
-        List<SystemScanResult> UsedAnomalies;
+        List<SystemScanResult> UsedAnomalies = new List<SystemScanResult>();
         Entity FirstWreck;
         Entity SpeedTank;
-        EveComFramework.Targets.Targets Rats;
-        EveComFramework.Targets.Targets NonFleetPlayers;
-        EveComFramework.Targets.Targets Wrecks;
+        EveComFramework.Targets.Targets Rats = new EveComFramework.Targets.Targets();
+        EveComFramework.Targets.Targets NonFleetPlayers = new EveComFramework.Targets.Targets();
+        EveComFramework.Targets.Targets Wrecks = new EveComFramework.Targets.Targets();
         Entity ActiveTarget;
-        string CurrentAnomaly;
+        string CurrentAnomaly = "";
         Dictionary<Entity, DateTime> TargetCooldown = new Dictionary<Entity, DateTime>();
 
         #endregion
@@ -483,4 +489,5 @@ namespace Ratter
             }
         }
     }
+
 }
