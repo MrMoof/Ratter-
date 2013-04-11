@@ -13,7 +13,7 @@ namespace Ratter
     public partial class Ratter : Form
     {
         RatterSettings Config = new RatterSettings();
-        EveComFramework.Security.Security Security = new EveComFramework.Security.Security();
+        EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
 
         Core Bot = Core.Instance;
 

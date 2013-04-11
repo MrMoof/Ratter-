@@ -36,6 +36,7 @@ namespace Ratter
         RatterSettings Config = new RatterSettings();
         EveComFramework.Move.Move Move = EveComFramework.Move.Move.Instance;
         EveComFramework.Cargo.Cargo Cargo = EveComFramework.Cargo.Cargo.Instance;
+        EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
 
         List<SystemScanResult> UsedAnomalies;
         Entity FirstWreck;
@@ -55,7 +56,8 @@ namespace Ratter
         {
             if (Idle)
             {
-                
+                Security.Log.Event += Logger;
+                Security.Alert += Alert;
             }
 
         }
@@ -63,6 +65,16 @@ namespace Ratter
         public void Stop()
         {
             Clear();
+        }
+
+        void Logger(string Message)
+        {
+
+        }
+
+        void Alert(EveComFramework.Security.FleeTrigger Trigger)
+        {
+
         }
 
         #endregion
@@ -123,7 +135,7 @@ namespace Ratter
 
         bool Traveling(object[] Params)
         {
-            if (!Move.Idle || !Cargo.Idle() || (Session.InSpace && MyShip.ToEntity.Mode == EntityMode.Warping))
+            if (!Move.Idle || !Cargo.Idle || (Session.InSpace && MyShip.ToEntity.Mode == EntityMode.Warping))
             {
                 return false;
             }
