@@ -15,7 +15,7 @@ namespace Ratter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Ratter());
+            Application.Run(new RatterForm());
         }
     }
 }

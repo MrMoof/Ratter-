@@ -10,16 +10,20 @@ using EveCom;
 
 namespace Ratter
 {
-    public partial class Ratter : Form
+    public partial class RatterForm : Form
     {
         RatterSettings Config = new RatterSettings();
 
         Core Bot = Core.Instance;
 
-        public Ratter()
+
+        public RatterForm()
         {
             InitializeComponent();
+            Core.Instance.Console.Event += Console;
+            Core.Instance.DroneControl.Log.Event += Console;
         }
+
 
         private void Ratter_Load(object sender, EventArgs e)
         {
@@ -36,12 +40,18 @@ namespace Ratter
                     Anomalies.SetItemChecked(i, true);
                 }
             }
-            using (new EVEFrameLock())
-            {
-                TetherPilot.DataSource = Fleet.Members.Where(a => a.ID != Me.CharID).Select(a => a.Name).ToList();
-                DropoffBookmark.DataSource = Bookmark.All.Select(a => a.Title).ToList();
-                Ammo.DataSource = MyShip.CargoBay.Items.Select(a => a.Type).ToList();
-            }
+            //using (new EVEFrameLock())
+            //{
+            //    if (Session.InFleet)
+            //    {
+            //        TetherPilot.DataSource = Fleet.Members.Where(a => a.ID != Me.CharID).Select(a => a.Name).ToList();
+            //    }
+            //    DropoffBookmark.DataSource = Bookmark.All.Select(a => a.Title).ToList();
+            //    if (MyShip.CargoBay != null)
+            //    {
+            //        Ammo.DataSource = MyShip.CargoBay.Items.Select(a => a.Type).ToList();
+            //    }
+            //}
             TetherPilot.Text = Config.CombatTetherPilot;
             
             WarpDistance.Value = Config.WarpDistance;
@@ -66,6 +76,9 @@ namespace Ratter
 
             DropoffBookmark.SelectedItem = Config.DropoffBookmark;
             Ammo.SelectedItem = Config.Ammo;
+
+            DropoffBookmarkFilter.Text = Config.DropoffBookmark;
+            AmmoFilter.Text = Config.Ammo;
         }
 
         private void Toggle_Click(object sender, EventArgs e)
@@ -83,11 +96,13 @@ namespace Ratter
         private void Mode_SelectedIndexChanged(object sender, EventArgs e)
         {
             Config.Mode = (RatMode)Mode.SelectedItem;
+            Config.Save();
         }
 
         private void Anomalies_SelectedIndexChanged(object sender, EventArgs e)
         {
             Config.Anomalies = Anomalies.CheckedItems.Cast<string>().ToList();
+            Config.Save();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -115,92 +130,110 @@ namespace Ratter
         {
             Config.WarpDistance = WarpDistance.Value;
             WarpDistanceLabel.Text = String.Format("Warp to {0} km", Config.WarpDistance);
+            Config.Save();
         }
 
         private void Tether_CheckedChanged(object sender, EventArgs e)
         {
             Config.MovementTether = Tether.Checked;
+            Config.Save();
         }
 
         private void TetherPilot_SelectedIndexChanged(object sender, EventArgs e)
         {
             Config.CombatTetherPilot = TetherPilot.SelectedIndex.ToString();
+            Config.Save();
         }
 
         private void Squat_CheckedChanged(object sender, EventArgs e)
         {
             Config.Squat = Squat.Checked;
+            Config.Save();
         }
 
         private void SpeedTank_CheckedChanged(object sender, EventArgs e)
         {
             Config.SpeedTank = SpeedTank.Checked;
+            Config.Save();
         }
 
         private void CombatTether_CheckedChanged(object sender, EventArgs e)
         {
             Config.CombatTether = CombatTether.Checked;
+            Config.Save();
         }
 
         private void KeepAtRange_CheckedChanged(object sender, EventArgs e)
         {
             Config.KeepAtRange = KeepAtRange.Checked;
+            Config.Save();
         }
 
         private void SpeedTankRange_Scroll(object sender, EventArgs e)
         {
             Config.SpeedTankRange = SpeedTankRange.Value;
             SpeedTankRangeLabel.Text = String.Format("Speed tank at {0} km", Config.SpeedTankRange);
+            Config.Save();
         }
 
         private void TargetSlots_Scroll(object sender, EventArgs e)
         {
             Config.TargetSlots = TargetSlots.Value;
             TargetSlotsLabel.Text = String.Format("Use {0} target for weapons", Config.TargetSlots);
+            Config.Save();
         }
 
         private void CargoThreshold_Scroll(object sender, EventArgs e)
         {
             Config.CargoThreshold = CargoThreshold.Value;
             CargoThresholdLabel.Text = String.Format("Dropoff when cargo exceeds {0}%", Config.CargoThreshold);
+            Config.Save();
         }
 
         private void DropoffBookmarkFilter_TextChanged(object sender, EventArgs e)
         {
-            using (new EVEFrameLock())
-            {
-                DropoffBookmark.DataSource = Bookmark.All.Where(a => a.Title.Contains(DropoffBookmarkFilter.Text)).Select(a => a.Title).ToList();
-            }
+            Config.DropoffBookmark = DropoffBookmarkFilter.Text;
+            //using (new EVEFrameLock())
+            //{
+            //    DropoffBookmark.DataSource = Bookmark.All.Where(a => a.Title.Contains(DropoffBookmarkFilter.Text)).Select(a => a.Title).ToList();
+            //}
+            Config.Save();
         }
 
         private void DropoffBookmark_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.DropoffBookmark = DropoffBookmark.SelectedItem.ToString();
+            //Config.DropoffBookmark = DropoffBookmark.SelectedItem.ToString();
+            //Config.Save();
         }
 
         private void AmmoFilter_TextChanged(object sender, EventArgs e)
         {
-            using (new EVEFrameLock())
-            {
-                Ammo.DataSource = MyShip.CargoBay.Items.Where(a => a.Type.Contains(AmmoFilter.Text)).Select(a => a.Type).ToList();
-            }
+            Config.Ammo = AmmoFilter.Text;
+            //using (new EVEFrameLock())
+            //{
+            //    Ammo.DataSource = MyShip.CargoBay.Items.Where(a => a.Type.Contains(AmmoFilter.Text)).Select(a => a.Type).ToList();
+            //}
+            Config.Save();
         }
 
         private void Ammo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.Ammo = Ammo.SelectedItem.ToString();
+            //Config.Ammo = Ammo.SelectedItem.ToString();
+            //Config.Save();
         }
 
         private void AmmoQuantity_Scroll(object sender, EventArgs e)
         {
             Config.AmmoQuantity = AmmoQuantity.Value;
             AmmoQuantityLabel.Text = string.Format("Fill {0}% of the cargo hold with ammo", Config.AmmoQuantity);
+            Config.Save();
         }
 
         private void AmmoTrigger_Scroll(object sender, EventArgs e)
         {
             Config.AmmoTrigger = AmmoTrigger.Value;
             AmmoTriggerLabel.Text = String.Format("Reload if less than {0}% ammo in cargo hold", Config.AmmoTrigger);
+            Config.Save();
         }
 
         private void SecurityConfig_Click(object sender, EventArgs e)
@@ -213,7 +246,24 @@ namespace Ratter
             Core.Instance.AutoModule.Configure();
         }
 
+        delegate void SetConsole(string Message);
 
+        void Console(string Message)
+        {
+            if (listConsole.InvokeRequired)
+            {
+                listConsole.BeginInvoke(new SetConsole(Console), Message);
+            }
+            else
+            {
+                listConsole.Items.Add(Message);
+            }
+        }
+
+        private void DroneControlConfig_Click(object sender, EventArgs e)
+        {
+            Core.Instance.DroneControl.Configure();
+        }
 
     }
 
@@ -233,22 +283,22 @@ namespace Ratter
 
     internal class RatterSettings : EveComFramework.Core.Settings
     {
-        internal int CargoThreshold = 90;
-        internal int WarpDistance = 0;
-        internal int SpeedTankRange = 20;
-        internal int TargetSlots = 1;
-        internal int AmmoQuantity = 90;
-        internal int AmmoTrigger = 10;
-        internal RatMode Mode = RatMode.Belt;
-        internal bool Squat = false;
-        internal bool SpeedTank = false;
-        internal bool KeepAtRange = false;
-        internal bool MovementTether = false;
-        internal bool CombatTether = false;
-        internal string CombatTetherPilot = "";
-        internal string DropoffBookmark = "";
-        internal string Ammo = "";
-        internal List<string> Anomalies = new List<string> 
+        public int CargoThreshold = 90;
+        public int WarpDistance = 0;
+        public int SpeedTankRange = 20;
+        public int TargetSlots = 1;
+        public int AmmoQuantity = 90;
+        public int AmmoTrigger = 10;
+        public RatMode Mode = RatMode.Belt;
+        public bool Squat = false;
+        public bool SpeedTank = false;
+        public bool KeepAtRange = false;
+        public bool MovementTether = false;
+        public bool CombatTether = false;
+        public string CombatTetherPilot = "";
+        public string DropoffBookmark = "";
+        public string Ammo = "";
+        public List<string> Anomalies = new List<string> 
         {
             "Sanctum",
             "Drone Horde",
