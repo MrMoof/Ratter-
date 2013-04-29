@@ -86,18 +86,8 @@ namespace Ratter
 
         void Alert(EveComFramework.Security.FleeTrigger Trigger)
         {
-            using (new EVEFrameLock())
-            {
-                if (!Session.Safe || Session.InStation)
-                {
-                    return;
-                }
-                if (Entity.All.FirstOrDefault(a => a.IsWarpScrambling && a.IsTargetingMe) == null)
-                {
-                    Clear();
-                    Security.Flee();
-                }
-            }
+            Clear();
+            Security.Flee();
         }
 
         #endregion
@@ -515,6 +505,8 @@ namespace Ratter
 
     }
 
+    #region Utility classes
+
     static class DictionaryHelper
     {
         public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
@@ -542,5 +534,7 @@ namespace Ratter
             }
         }
     }
+    
+    #endregion
 
 }
