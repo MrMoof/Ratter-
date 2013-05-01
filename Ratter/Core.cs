@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using EveComFramework;
+using EveComFramework.Core;
+using EveComFramework.Move;
+using EveComFramework.Cargo;
+using EveComFramework.Security;
+using EveComFramework.AutoModule;
+using EveComFramework.DroneControl;
 using EveCom;
 
 
 namespace Ratter
 {
-    class Core : EveComFramework.Core.State
+    class Core : State
     {
         #region Instantiation
 
@@ -40,13 +46,13 @@ namespace Ratter
 
         #region Variables
 
-        public EveComFramework.Core.Logger Console = new EveComFramework.Core.Logger();
+        public Logger Console = new Logger();
         RatterSettings Config = new RatterSettings();
-        EveComFramework.Move.Move Move = EveComFramework.Move.Move.Instance;
-        EveComFramework.Cargo.Cargo Cargo = EveComFramework.Cargo.Cargo.Instance;
-        public EveComFramework.Security.Security Security = EveComFramework.Security.Security.Instance;
-        public EveComFramework.AutoModule.AutoModule AutoModule = EveComFramework.AutoModule.AutoModule.Instance;
-        public EveComFramework.DroneControl.DroneControl DroneControl = EveComFramework.DroneControl.DroneControl.Instance;
+        Move Move = Move.Instance;
+        Cargo Cargo = Cargo.Instance;
+        public Security Security = Security.Instance;
+        public AutoModule AutoModule = AutoModule.Instance;
+        public DroneControl DroneControl = DroneControl.Instance;
 
         List<SystemScanResult> UsedAnomalies = new List<SystemScanResult>();
         Entity FirstWreck;
