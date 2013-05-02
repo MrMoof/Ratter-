@@ -14,6 +14,52 @@ using EveCom;
 
 namespace Ratter
 {
+    public class UIData : State
+    {
+        #region Instantiation
+
+        static UIData _Instance;
+        public static UIData Instance
+        {
+            get
+            {
+                if (_Instance == null)
+                {
+                    _Instance = new UIData();
+                }
+                return _Instance;
+            }
+        }
+
+        private UIData() : base()
+        {
+
+        }
+
+        #endregion
+
+        #region Variables
+
+        public List<Bookmark> Bookmarks { get; set; }
+        public List<FleetMember> FleetMembers { get; set; }
+        public List<Item> Cargo { get; set; }
+
+        #endregion
+
+        #region States
+
+        bool Update(object[] Params)
+        {
+            if (!Session.Safe || (!Session.InStation && !Session.InSpace)) return false;
+            Bookmarks = Bookmark.All.ToList();
+            FleetMembers = Fleet.Members;
+            Cargo = MyShip.CargoBay.Items;
+            return false;
+        }
+
+        #endregion
+    }
+    
     class Core : State
     {
         #region Instantiation
@@ -87,18 +133,54 @@ namespace Ratter
             AutoModule.Stop();
             Security.Stop();
             DroneControl.Stop();
+            Security.Alert -= Alert;
             Clear();
         }
 
         void Alert(EveComFramework.Security.FleeTrigger Trigger)
         {
             Clear();
+            Cargo.Clear();
+            Move.Clear();
             Security.Flee();
+            QueueState(SecurityWait, -1, Trigger);
         }
 
         #endregion
 
         #region States
+
+        bool SecurityWait(object[] Params)
+        {
+            FleeTrigger Trigger = (FleeTrigger)Params[0];
+            if (Security.CurState.ToString() == "CheckSafe")
+            {
+                AutoModule.Start();
+                Security.Start();
+                DroneControl.Start();
+                QueueState(CheckCargoHold);
+                return true;
+            }
+            if (!Security.Idle)
+            {
+                return false;
+            }
+            switch (Trigger)
+            {
+                case FleeTrigger.NegativeStanding:
+                case FleeTrigger.NeutralStanding:
+                case FleeTrigger.Pod:
+                case FleeTrigger.Targeted:
+                    Security.Reset();
+                    break;
+                case FleeTrigger.ArmorLow:
+                case FleeTrigger.CapacitorLow:
+                case FleeTrigger.ShieldLow:
+                    Security.Reset(1);
+                    break;
+            }
+            return false;
+        }
 
         #region Inventory
 
@@ -540,7 +622,7 @@ namespace Ratter
             }
         }
     }
-    
+
     #endregion
 
 }

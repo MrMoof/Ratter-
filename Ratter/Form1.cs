@@ -64,7 +64,7 @@ namespace Ratter
             WarpDistanceLabel.Text = String.Format("Warp to {0} km", Config.WarpDistance);
             SpeedTankRangeLabel.Text = String.Format("Speed tank at {0} km", Config.SpeedTankRange);
             TargetSlotsLabel.Text = String.Format("Use {0} target for weapons", Config.TargetSlots);
-            CargoThresholdLabel.Text = String.Format("Dropoff when cargo exceeds {0}%", Config.CargoThreshold);
+            CargoThresholdLabel.Text = String.Format("{0}%", Config.CargoThreshold);
             AmmoQuantityLabel.Text = string.Format("Fill {0}% of the cargo hold with ammo", Config.AmmoQuantity);
             AmmoTriggerLabel.Text = String.Format("Reload if less than {0}% ammo in cargo hold", Config.AmmoTrigger);
 
@@ -74,23 +74,8 @@ namespace Ratter
             CombatTether.Checked = Config.CombatTether;
             KeepAtRange.Checked = Config.KeepAtRange;
 
-            DropoffBookmark.SelectedItem = Config.DropoffBookmark;
-            Ammo.SelectedItem = Config.Ammo;
-
-            DropoffBookmarkFilter.Text = Config.DropoffBookmark;
-            AmmoFilter.Text = Config.Ammo;
-        }
-
-        private void Toggle_Click(object sender, EventArgs e)
-        {
-            if (Bot.Idle)
-            {
-                Bot.Start();
-            }
-            else
-            {
-                Bot.Stop();
-            }
+            DropoffBookmark.Text = Config.DropoffBookmark;
+            Ammo.Text = Config.Ammo;
         }
 
         private void Mode_SelectedIndexChanged(object sender, EventArgs e)
@@ -141,7 +126,7 @@ namespace Ratter
 
         private void TetherPilot_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.CombatTetherPilot = TetherPilot.SelectedIndex.ToString();
+            Config.CombatTetherPilot = TetherPilot.Text;
             Config.Save();
         }
 
@@ -186,13 +171,13 @@ namespace Ratter
         private void CargoThreshold_Scroll(object sender, EventArgs e)
         {
             Config.CargoThreshold = CargoThreshold.Value;
-            CargoThresholdLabel.Text = String.Format("Dropoff when cargo exceeds {0}%", Config.CargoThreshold);
+            CargoThresholdLabel.Text = String.Format("{0}%", Config.CargoThreshold);
             Config.Save();
         }
 
         private void DropoffBookmarkFilter_TextChanged(object sender, EventArgs e)
         {
-            Config.DropoffBookmark = DropoffBookmarkFilter.Text;
+            Config.DropoffBookmark = DropoffBookmark.Text;
             //using (new EVEFrameLock())
             //{
             //    DropoffBookmark.DataSource = Bookmark.All.Where(a => a.Title.Contains(DropoffBookmarkFilter.Text)).Select(a => a.Title).ToList();
@@ -208,7 +193,7 @@ namespace Ratter
 
         private void AmmoFilter_TextChanged(object sender, EventArgs e)
         {
-            Config.Ammo = AmmoFilter.Text;
+            Config.Ammo = Ammo.Text;
             //using (new EVEFrameLock())
             //{
             //    Ammo.DataSource = MyShip.CargoBay.Items.Where(a => a.Type.Contains(AmmoFilter.Text)).Select(a => a.Type).ToList();
@@ -264,6 +249,26 @@ namespace Ratter
         {
             Core.Instance.DroneControl.Configure();
         }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.FleetMembers.Select(a => a.Name).ToList());
+            DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.Bookmarks.Select(a => a.Title).ToList());
+            Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.Cargo.Select(a => a.Type).ToList());
+        }
+
+        private void Toggle_CheckedChanged(object sender, EventArgs e)
+        {
+            if (Toggle.Checked)
+            {
+                Bot.Start();
+            }
+            else
+            {
+                Bot.Stop();
+            }
+        }
+
 
     }
 
@@ -348,4 +353,12 @@ namespace Ratter
     }
 
     #endregion
+
+    public class MyAutoCompleteStringCollection : AutoCompleteStringCollection
+    {
+        public MyAutoCompleteStringCollection(List<String> items)
+        {
+            this.AddRange(items.ToArray());
+        }
+    }
 }
