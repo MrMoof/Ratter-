@@ -78,6 +78,7 @@
             this.AutoModuleConfig = new System.Windows.Forms.Button();
             this.SecurityConfig = new System.Windows.Forms.Button();
             this.Toggle = new System.Windows.Forms.CheckBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -247,7 +248,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(269, 107);
+            this.tabPage2.Size = new System.Drawing.Size(274, 107);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Bookmark";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -257,7 +258,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(269, 107);
+            this.tabPage5.Size = new System.Drawing.Size(274, 107);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Belt";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -499,6 +500,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.listBox1);
             this.tabPage6.Controls.Add(this.groupBox1);
             this.tabPage6.Controls.Add(this.groupBox2);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
@@ -708,6 +710,14 @@
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.CheckedChanged += new System.EventHandler(this.Toggle_CheckedChanged);
             // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(6, 130);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(294, 199);
+            this.listBox1.TabIndex = 6;
+            // 
             // RatterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -807,6 +817,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

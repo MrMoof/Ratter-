@@ -15,11 +15,13 @@ namespace Ratter
         RatterSettings Config = new RatterSettings();
 
         Core Bot = Core.Instance;
+        UIData UI = UIData.Instance;
 
 
         public RatterForm()
         {
             InitializeComponent();
+            
             Core.Instance.Console.Event += Console;
             Core.Instance.DroneControl.Log.Event += Console;
         }
@@ -252,9 +254,10 @@ namespace Ratter
 
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.FleetMembers.Select(a => a.Name).ToList());
-            DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.Bookmarks.Select(a => a.Title).ToList());
-            Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UIData.Instance.Cargo.Select(a => a.Type).ToList());
+            
+            if (UI.FleetMembers.Any()) TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.FleetMembers);
+            if (UI.Bookmarks.Any()) DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Bookmarks);
+            if (UI.Cargo.Any()) Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Cargo);
         }
 
         private void Toggle_CheckedChanged(object sender, EventArgs e)

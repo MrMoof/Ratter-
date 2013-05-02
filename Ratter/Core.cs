@@ -14,7 +14,7 @@ using EveCom;
 
 namespace Ratter
 {
-    public class UIData : State
+    class UIData : State
     {
         #region Instantiation
 
@@ -33,16 +33,16 @@ namespace Ratter
 
         private UIData() : base()
         {
-
+            QueueState(Update);
         }
 
         #endregion
 
         #region Variables
 
-        public List<Bookmark> Bookmarks { get; set; }
-        public List<FleetMember> FleetMembers { get; set; }
-        public List<Item> Cargo { get; set; }
+        public List<string> Bookmarks { get; set; }
+        public List<string> FleetMembers { get; set; }
+        public List<string> Cargo { get; set; }
 
         #endregion
 
@@ -51,9 +51,9 @@ namespace Ratter
         bool Update(object[] Params)
         {
             if (!Session.Safe || (!Session.InStation && !Session.InSpace)) return false;
-            Bookmarks = Bookmark.All.ToList();
-            FleetMembers = Fleet.Members;
-            Cargo = MyShip.CargoBay.Items;
+            Bookmarks = Bookmark.All.Select(a => a.Title).ToList();
+            FleetMembers = Fleet.Members.Select(a => a.Name).ToList();
+            Cargo = MyShip.CargoBay.Items.Select(a => a.Type).ToList();
             return false;
         }
 
