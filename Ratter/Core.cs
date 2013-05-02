@@ -456,7 +456,7 @@ namespace Ratter
                 return false;
             }
 
-            if (Rats.TargetList.Count == 0)
+            if (Rats.TargetList.Count == 0 && !DroneControl.Busy.IsBusy)
             {
                 QueueState(RefreshBookmarks);
                 QueueState(FinishedRatting);
