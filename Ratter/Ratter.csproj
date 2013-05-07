@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="Lavish.InnerSpace">
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\InnerSpace\.NET Programs\Lavish.InnerSpace.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

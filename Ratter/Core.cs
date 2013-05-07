@@ -559,7 +559,7 @@ namespace Ratter
                 {
                     if (MyShip.Modules.Count(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance) > 0)
                     {
-                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                     if (MyShip.Modules.Count(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading) > 0)
@@ -569,12 +569,12 @@ namespace Ratter
                     }
                     if (MyShip.Modules.Count(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
                     {
-                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                     if (MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
                     {
-                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                 }
