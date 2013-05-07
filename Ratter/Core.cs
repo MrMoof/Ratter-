@@ -572,6 +572,11 @@ namespace Ratter
                         MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
                         return false;
                     }
+                    if (MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
+                    {
+                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        return false;
+                    }
                 }
             }
             else
