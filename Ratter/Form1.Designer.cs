@@ -29,14 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RatterForm));
-            this.Tether = new System.Windows.Forms.CheckBox();
-            this.WarpDistanceLabel = new System.Windows.Forms.Label();
-            this.WarpDistance = new System.Windows.Forms.TrackBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.Anomalies = new System.Windows.Forms.CheckedListBox();
+            this.Anomalies = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.Mode = new System.Windows.Forms.ComboBox();
@@ -44,11 +40,14 @@
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.listConsole = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.TetherPilot = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.WarpDistanceLabel = new System.Windows.Forms.Label();
+            this.WarpDistance = new System.Windows.Forms.TrackBar();
+            this.Tether = new System.Windows.Forms.CheckBox();
+            this.TetherPilot = new System.Windows.Forms.TextBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.TargetSlotsLabel = new System.Windows.Forms.Label();
             this.TargetSlots = new System.Windows.Forms.TrackBar();
@@ -78,17 +77,16 @@
             this.AutoModuleConfig = new System.Windows.Forms.Button();
             this.SecurityConfig = new System.Windows.Forms.Button();
             this.Toggle = new System.Windows.Forms.CheckBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage3.SuspendLayout();
-            this.groupBox7.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TargetSlots)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -105,39 +103,6 @@
             this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
-            // Tether
-            // 
-            this.Tether.AutoSize = true;
-            this.Tether.Location = new System.Drawing.Point(6, 65);
-            this.Tether.Name = "Tether";
-            this.Tether.Size = new System.Drawing.Size(134, 17);
-            this.Tether.TabIndex = 4;
-            this.Tether.Text = "Tether to fleet member";
-            this.Tether.UseVisualStyleBackColor = true;
-            this.Tether.CheckedChanged += new System.EventHandler(this.Tether_CheckedChanged);
-            // 
-            // WarpDistanceLabel
-            // 
-            this.WarpDistanceLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WarpDistanceLabel.Location = new System.Drawing.Point(6, 43);
-            this.WarpDistanceLabel.Name = "WarpDistanceLabel";
-            this.WarpDistanceLabel.Size = new System.Drawing.Size(282, 19);
-            this.WarpDistanceLabel.TabIndex = 3;
-            this.WarpDistanceLabel.Text = "Warp to 0 km";
-            this.WarpDistanceLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // WarpDistance
-            // 
-            this.WarpDistance.BackColor = System.Drawing.SystemColors.Control;
-            this.WarpDistance.Location = new System.Drawing.Point(6, 17);
-            this.WarpDistance.Maximum = 100;
-            this.WarpDistance.Name = "WarpDistance";
-            this.WarpDistance.Size = new System.Drawing.Size(282, 45);
-            this.WarpDistance.TabIndex = 2;
-            this.WarpDistance.Tag = "Use this slider to indicate how close ComBot should warp to ratting locations";
-            this.WarpDistance.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.WarpDistance.Scroll += new System.EventHandler(this.WarpDistance_Scroll);
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -146,109 +111,49 @@
             this.tabControl1.Location = new System.Drawing.Point(6, 20);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(282, 133);
+            this.tabControl1.Size = new System.Drawing.Size(282, 249);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button3);
-            this.tabPage1.Controls.Add(this.button2);
             this.tabPage1.Controls.Add(this.Anomalies);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(274, 107);
+            this.tabPage1.Size = new System.Drawing.Size(274, 223);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Anomaly";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(179, 60);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(40, 40);
-            this.button3.TabIndex = 7;
-            this.button3.Tag = "Move the selected Anomaly down in the priority list";
-            this.button3.Text = "↓";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button2
-            // 
-            this.button2.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(179, 6);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(40, 40);
-            this.button2.TabIndex = 6;
-            this.button2.Tag = "Move the selected Anomaly up in the priority list";
-            this.button2.Text = "↑";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // Anomalies
             // 
-            this.Anomalies.CheckOnClick = true;
-            this.Anomalies.FormattingEnabled = true;
-            this.Anomalies.Items.AddRange(new object[] {
-            "Sanctum",
-            "Drone Horde",
-            "Haven",
-            "Drone Patrol",
-            "Forlorn Hub",
-            "Forlorn Drone Squad",
-            "Forsaken Hub",
-            "Forsaken Drone Squad",
-            "Hidden Hub",
-            "Hidden Drone Squad",
-            "Hub",
-            "Drone Squad",
-            "Port",
-            "Drone Herd",
-            "Forlorn Rally Point",
-            "Forlorn Drone Menagerie",
-            "Forsaken Rally Point",
-            "Forsaken Drone Menagerie",
-            "Hidden Rally Point",
-            "Hidden Drone Menagerie",
-            "Rally Point",
-            "Drone Menagerie",
-            "Yard",
-            "Drone Surveillance",
-            "Forlorn Den",
-            "Forlorn Drone Gathering",
-            "Forsaken Den",
-            "Forsaken Drone Gathering",
-            "Hidden Den",
-            "Hidden Drone Gathering",
-            "Den",
-            "Drone Gathering",
-            "Refuge",
-            "Drone Assembly",
-            "Burrow",
-            "Drone Collection",
-            "Forlorn Hideaway",
-            "Forlorn Drone Cluster",
-            "Forsaken Hideaway",
-            "Forsaken Drone Cluster",
-            "Hidden Hideaway",
-            "Hidden Drone Cluster",
-            "Hideaway",
-            "Drone Cluster"});
+            this.Anomalies.AllowDrop = true;
+            this.Anomalies.AutoArrange = false;
+            this.Anomalies.CheckBoxes = true;
+            this.Anomalies.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.Anomalies.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.Anomalies.Location = new System.Drawing.Point(6, 6);
             this.Anomalies.Name = "Anomalies";
-            this.Anomalies.Size = new System.Drawing.Size(167, 84);
-            this.Anomalies.TabIndex = 5;
-            this.Anomalies.Tag = "This list indicates which Anomalies will be run.  Use the buttons to the right to" +
-                " sort the list.  Unchecked Anomalies will be ignored.";
-            this.Anomalies.SelectedIndexChanged += new System.EventHandler(this.Anomalies_SelectedIndexChanged);
+            this.Anomalies.Size = new System.Drawing.Size(262, 211);
+            this.Anomalies.TabIndex = 6;
+            this.Anomalies.UseCompatibleStateImageBehavior = false;
+            this.Anomalies.View = System.Windows.Forms.View.Details;
+            this.Anomalies.VirtualListSize = 10;
+            this.Anomalies.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.Anomalies_ItemDrag);
+            this.Anomalies.DragDrop += new System.Windows.Forms.DragEventHandler(this.Anomalies_DragDrop);
+            this.Anomalies.DragEnter += new System.Windows.Forms.DragEventHandler(this.Anomalies_DragEnter);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Width = 250;
             // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(274, 107);
+            this.tabPage2.Size = new System.Drawing.Size(274, 223);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Bookmark";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -258,7 +163,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(274, 107);
+            this.tabPage5.Size = new System.Drawing.Size(274, 223);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Belt";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -312,7 +217,6 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.groupBox7);
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox3);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
@@ -323,34 +227,12 @@
             this.tabPage3.Text = "Movement";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.WarpDistanceLabel);
-            this.groupBox7.Controls.Add(this.WarpDistance);
-            this.groupBox7.Controls.Add(this.Tether);
-            this.groupBox7.Controls.Add(this.TetherPilot);
-            this.groupBox7.Location = new System.Drawing.Point(6, 212);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(294, 117);
-            this.groupBox7.TabIndex = 8;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Settings";
-            // 
-            // TetherPilot
-            // 
-            this.TetherPilot.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this.TetherPilot.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.TetherPilot.Location = new System.Drawing.Point(6, 88);
-            this.TetherPilot.Name = "TetherPilot";
-            this.TetherPilot.Size = new System.Drawing.Size(282, 21);
-            this.TetherPilot.TabIndex = 5;
-            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.tabControl1);
             this.groupBox6.Location = new System.Drawing.Point(6, 53);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(294, 159);
+            this.groupBox6.Size = new System.Drawing.Size(294, 275);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Objective";
@@ -367,6 +249,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.groupBox5);
             this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
@@ -377,11 +260,65 @@
             this.tabPage4.Text = "Combat";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.WarpDistanceLabel);
+            this.groupBox7.Controls.Add(this.WarpDistance);
+            this.groupBox7.Controls.Add(this.Tether);
+            this.groupBox7.Controls.Add(this.TetherPilot);
+            this.groupBox7.Location = new System.Drawing.Point(6, 212);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(294, 117);
+            this.groupBox7.TabIndex = 9;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Warp In";
+            // 
+            // WarpDistanceLabel
+            // 
+            this.WarpDistanceLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.WarpDistanceLabel.Location = new System.Drawing.Point(6, 43);
+            this.WarpDistanceLabel.Name = "WarpDistanceLabel";
+            this.WarpDistanceLabel.Size = new System.Drawing.Size(282, 19);
+            this.WarpDistanceLabel.TabIndex = 3;
+            this.WarpDistanceLabel.Text = "Warp to 0 km";
+            this.WarpDistanceLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // WarpDistance
+            // 
+            this.WarpDistance.BackColor = System.Drawing.SystemColors.Control;
+            this.WarpDistance.Location = new System.Drawing.Point(6, 17);
+            this.WarpDistance.Maximum = 100;
+            this.WarpDistance.Name = "WarpDistance";
+            this.WarpDistance.Size = new System.Drawing.Size(282, 45);
+            this.WarpDistance.TabIndex = 2;
+            this.WarpDistance.Tag = "Use this slider to indicate how close ComBot should warp to ratting locations";
+            this.WarpDistance.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.WarpDistance.Scroll += new System.EventHandler(this.WarpDistance_Scroll);
+            // 
+            // Tether
+            // 
+            this.Tether.AutoSize = true;
+            this.Tether.Location = new System.Drawing.Point(6, 65);
+            this.Tether.Name = "Tether";
+            this.Tether.Size = new System.Drawing.Size(134, 17);
+            this.Tether.TabIndex = 4;
+            this.Tether.Text = "Tether to fleet member";
+            this.Tether.UseVisualStyleBackColor = true;
+            // 
+            // TetherPilot
+            // 
+            this.TetherPilot.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.TetherPilot.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TetherPilot.Location = new System.Drawing.Point(6, 88);
+            this.TetherPilot.Name = "TetherPilot";
+            this.TetherPilot.Size = new System.Drawing.Size(282, 21);
+            this.TetherPilot.TabIndex = 5;
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.TargetSlotsLabel);
             this.groupBox5.Controls.Add(this.TargetSlots);
-            this.groupBox5.Location = new System.Drawing.Point(6, 146);
+            this.groupBox5.Location = new System.Drawing.Point(6, 141);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(294, 67);
             this.groupBox5.TabIndex = 3;
@@ -500,7 +437,6 @@
             // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.listBox1);
             this.tabPage6.Controls.Add(this.groupBox1);
             this.tabPage6.Controls.Add(this.groupBox2);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
@@ -710,14 +646,6 @@
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.CheckedChanged += new System.EventHandler(this.Toggle_CheckedChanged);
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(6, 130);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(294, 199);
-            this.listBox1.TabIndex = 6;
-            // 
             // RatterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -730,17 +658,18 @@
             this.Name = "RatterForm";
             this.Text = "Ratter";
             this.Load += new System.EventHandler(this.Ratter_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).EndInit();
+            this.Shown += new System.EventHandler(this.RatterForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabControl2.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TargetSlots)).EndInit();
@@ -768,14 +697,8 @@
 
         #endregion
 
-        private System.Windows.Forms.CheckBox Tether;
-        private System.Windows.Forms.Label WarpDistanceLabel;
-        private System.Windows.Forms.TrackBar WarpDistance;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckedListBox Anomalies;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ComboBox Mode;
         private System.Windows.Forms.TabControl tabControl2;
@@ -809,15 +732,19 @@
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.ListBox listConsole;
         private System.Windows.Forms.Button DroneControlConfig;
-        private System.Windows.Forms.TextBox TetherPilot;
         private System.Windows.Forms.CheckBox Toggle;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox8;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListView Anomalies;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label WarpDistanceLabel;
+        private System.Windows.Forms.TrackBar WarpDistance;
+        private System.Windows.Forms.CheckBox Tether;
+        private System.Windows.Forms.TextBox TetherPilot;
     }
 }
 

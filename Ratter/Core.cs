@@ -9,6 +9,7 @@ using EveComFramework.Cargo;
 using EveComFramework.Security;
 using EveComFramework.AutoModule;
 using EveComFramework.DroneControl;
+using EveComFramework.Targets;
 using EveCom;
 
 
@@ -82,7 +83,8 @@ namespace Ratter
             Rats.AddPriorityTargets();
             Rats.AddNPCs();
             Rats.AddTargetingMe();
-            Rats.Ordering = new EveComFramework.Targets.RatComparer();
+
+            Rats.Ordering = new RatComparer();
             NonFleetPlayers.AddNonFleetPlayers();
             Wrecks.AddQuery(a => a.GroupID == Group.Wreck && a.HaveLootRights);
             DefaultFrequency = 500;
@@ -94,8 +96,8 @@ namespace Ratter
 
         public Logger Console = new Logger();
         RatterSettings Config = new RatterSettings();
-        Move Move = Move.Instance;
-        Cargo Cargo = Cargo.Instance;
+        public Move Move = Move.Instance;
+        public Cargo Cargo = Cargo.Instance;
         public Security Security = Security.Instance;
         public AutoModule AutoModule = AutoModule.Instance;
         public DroneControl DroneControl = DroneControl.Instance;
@@ -153,13 +155,17 @@ namespace Ratter
         bool SecurityWait(object[] Params)
         {
             FleeTrigger Trigger = (FleeTrigger)Params[0];
-            if (Security.CurState.ToString() == "CheckSafe")
+            if (Security.CurState != null && Security.CurState.ToString() == "CheckSafe")
             {
                 AutoModule.Start();
                 Security.Start();
                 DroneControl.Start();
                 QueueState(CheckCargoHold);
                 return true;
+            }
+            if (Security.CurState != null && Security.CurState.ToString() == "Blank")
+            {
+                return false;
             }
             if (!Security.Idle)
             {
@@ -171,11 +177,13 @@ namespace Ratter
                 case FleeTrigger.NeutralStanding:
                 case FleeTrigger.Pod:
                 case FleeTrigger.Targeted:
+                    Console.Log("Performing wait after flee");
                     Security.Reset();
                     break;
                 case FleeTrigger.ArmorLow:
                 case FleeTrigger.CapacitorLow:
                 case FleeTrigger.ShieldLow:
+                    Console.Log("Resetting from cap/armor/shield flee");
                     Security.Reset(1);
                     break;
             }
@@ -327,19 +335,19 @@ namespace Ratter
             if (Window.Scanner != null ||
                 Window.Scanner.ScanResults != null)
             {
-                foreach (string type in Config.Anomalies)
+                foreach (string type in Config.Anomalies.Where(i => i.Value).Select(i => i.Key))
                 {
                     result = Window.Scanner.ScanResults.FirstOrDefault(a => a.DungeonName.Contains(type) && !UsedAnomalies.Contains(a) && a.Certainty > .99);
                     if (result != null)
                     {
                         if (Session.InFleet && Fleet.Members.First(member => member.ID == Me.CharID).Role != FleetRole.SquadMember)
                         {
-                            Console.Log("Warping fleet to {0} ({1})", result.DungeonName, result.ID);
+                            Console.Log("Warping fleet to {0} [{1}] ({2})", result.DungeonName, result.ID, Config.WarpDistance);
                             result.WarpFleetTo(Config.WarpDistance * 1000);
                         }
                         else
                         {
-                            Console.Log("Warping to {0} ({1})", result.DungeonName, result.ID);
+                            Console.Log("Warping to {0} [{1}] ({2})", result.DungeonName, result.ID, Config.WarpDistance);
                             result.WarpTo(Config.WarpDistance * 1000);
                         }
                         InsertState(CloseScanner);
@@ -410,6 +418,10 @@ namespace Ratter
 
         bool Reload(object[] Params)
         {
+            if (!Session.InSpace)
+            {
+                return true;
+            }
             Console.Log("Reloading ammo");
             Command.CmdReloadAmmo.Execute();
             return true;
@@ -543,27 +555,30 @@ namespace Ratter
 
             if (ActiveTarget != null && ActiveTarget.Exists && !ActiveTarget.Exploded)
             {
-                if (MyShip.Modules.Count(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance) > 0)
+                if (ActiveTarget.LockedTarget)
                 {
-                    MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).Activate(ActiveTarget);
-                    return false;
-                }
-                if (MyShip.Modules.Count(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading) > 0)
-                {
-                    MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
-                    return false;
-                }
-                if (MyShip.Modules.Count(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
-                {
-                    MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
-                    return false;
+                    if (MyShip.Modules.Count(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance) > 0)
+                    {
+                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        return false;
+                    }
+                    if (MyShip.Modules.Count(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading) > 0)
+                    {
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
+                        return false;
+                    }
+                    if (MyShip.Modules.Count(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
+                    {
+                        MyShip.Modules.FirstOrDefault(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).Activate(ActiveTarget);
+                        return false;
+                    }
                 }
             }
             else
             {
-                if (Rats.LockedTargetList.Count > 0)
+                if (Rats.LockedAndLockingTargetList.Count > 0)
                 {
-                    ActiveTarget = Rats.LockedTargetList.FirstOrDefault();
+                    ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
                 }
             }
 

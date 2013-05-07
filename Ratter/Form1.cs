@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using EveCom;
+using EveComFramework.Core;
 
 namespace Ratter
 {
@@ -24,6 +25,8 @@ namespace Ratter
             
             Core.Instance.Console.Event += Console;
             Core.Instance.DroneControl.Log.Event += Console;
+            Core.Instance.Security.Log.Event += Console;
+            Core.Instance.Move.Log.Event += Console;
         }
 
 
@@ -35,13 +38,12 @@ namespace Ratter
             }
             Mode.Text = Config.Mode.ToString();
 
-            for (int i = 0; i <= (Anomalies.Items.Count - 1); i++)
+            foreach (KeyValuePair<string, bool> i in Config.Anomalies)
             {
-                if (Config.Anomalies.Contains(Anomalies.Items[i].ToString()))
-                {
-                    Anomalies.SetItemChecked(i, true);
-                }
+                ListViewItem temp = Anomalies.Items.Add(i.Key);
+                temp.Checked = i.Value;
             }
+
             //using (new EVEFrameLock())
             //{
             //    if (Session.InFleet)
@@ -78,6 +80,7 @@ namespace Ratter
 
             DropoffBookmark.Text = Config.DropoffBookmark;
             Ammo.Text = Config.Ammo;
+
         }
 
         private void Mode_SelectedIndexChanged(object sender, EventArgs e)
@@ -88,29 +91,8 @@ namespace Ratter
 
         private void Anomalies_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Config.Anomalies = Anomalies.CheckedItems.Cast<string>().ToList();
-            Config.Save();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (Anomalies.SelectedIndex > 0)
-            {
-                Anomalies.Items.Insert(Anomalies.SelectedIndex - 1, Anomalies.SelectedItem);
-                Anomalies.SelectedIndex = (Anomalies.SelectedIndex - 2);
-                Anomalies.Items.RemoveAt(Anomalies.SelectedIndex + 2);
-            }
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            if (Anomalies.SelectedIndex != -1 && Anomalies.SelectedIndex < (Anomalies.Items.Count - 1))
-            {
-                int IndexToRemove = Anomalies.SelectedIndex;
-                Anomalies.Items.Insert(Anomalies.SelectedIndex + 2, Anomalies.SelectedItem);
-                Anomalies.SelectedIndex = (Anomalies.SelectedIndex + 2);
-                Anomalies.Items.RemoveAt(IndexToRemove);
-            }
+            //Config.Anomalies = Anomalies.CheckedItems.Cast<string>().ToList();
+            //Config.Save();
         }
 
         private void WarpDistance_Scroll(object sender, EventArgs e)
@@ -255,9 +237,9 @@ namespace Ratter
         private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-            if (UI.FleetMembers.Any()) TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.FleetMembers);
-            if (UI.Bookmarks.Any()) DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Bookmarks);
-            if (UI.Cargo.Any()) Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Cargo);
+            if (UI.FleetMembers != null) TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.FleetMembers);
+            if (UI.Bookmarks != null) DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Bookmarks);
+            if (UI.Cargo != null) Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Cargo);
         }
 
         private void Toggle_CheckedChanged(object sender, EventArgs e)
@@ -271,6 +253,100 @@ namespace Ratter
                 Bot.Stop();
             }
         }
+
+        private void Anomalies_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            Anomalies.DoDragDrop(Anomalies.SelectedItems, DragDropEffects.Move);
+        }
+
+        private void Anomalies_DragEnter(object sender, DragEventArgs e)
+        {
+            int len = e.Data.GetFormats().Length - 1;
+            int i;
+            for (i = 0; i <= len; i++)
+            {
+                if (e.Data.GetFormats()[i].Equals("System.Windows.Forms.ListView+SelectedListViewItemCollection"))
+                {
+                    //The data from the drag source is moved to the target.	
+                    e.Effect = DragDropEffects.Move;
+                }
+            }
+        }
+
+        private void Anomalies_DragDrop(object sender, DragEventArgs e)
+        {
+            //Return if the items are not selected in the ListView control.
+            if (Anomalies.SelectedItems.Count == 0)
+            {
+                return;
+            }
+            //Returns the location of the mouse pointer in the ListView control.
+            Point cp = Anomalies.PointToClient(new Point(e.X, e.Y));
+            //Obtain the item that is located at the specified location of the mouse pointer.
+            ListViewItem dragToItem = Anomalies.GetItemAt(cp.X, cp.Y);
+            if (dragToItem == null)
+            {
+                return;
+            }
+            //Obtain the index of the item at the mouse pointer.
+            int dragIndex = dragToItem.Index;
+            ListViewItem[] sel = new ListViewItem[Anomalies.SelectedItems.Count];
+            for (int i = 0; i <= Anomalies.SelectedItems.Count - 1; i++)
+            {
+                sel[i] = Anomalies.SelectedItems[i];
+            }
+            for (int i = 0; i < sel.GetLength(0); i++)
+            {
+                //Obtain the ListViewItem to be dragged to the target location.
+                ListViewItem dragItem = sel[i];
+                int itemIndex = dragIndex;
+                if (itemIndex == dragItem.Index)
+                {
+                    return;
+                }
+                if (dragItem.Index < itemIndex)
+                    itemIndex++;
+                else
+                    itemIndex = dragIndex + i;
+                //Insert the item at the mouse pointer.
+                ListViewItem insertItem = (ListViewItem)dragItem.Clone();
+                Anomalies.Items.Insert(itemIndex, insertItem);
+                //Removes the item from the initial location while 
+                //the item is moved to the new location.
+                Anomalies.Items.Remove(dragItem);
+            }
+
+            Settings.SerializableDictionary<string, bool> build = new Settings.SerializableDictionary<string, bool>();
+            foreach (ListViewItem i in Anomalies.Items)
+            {
+                build.Add(i.Text, i.Checked);
+            }
+            Config.Anomalies = build;
+            Config.Save();
+        }
+
+        private void Anomalies_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            try
+            {
+                Settings.SerializableDictionary<string, bool> build = new Settings.SerializableDictionary<string, bool>();
+                foreach (ListViewItem i in Anomalies.Items)
+                {
+                    build.Add(i.Text, i.Checked);
+                }
+                Config.Anomalies = build;
+                Config.Save();
+
+            }
+            catch {}
+        }
+
+        private void RatterForm_Shown(object sender, EventArgs e)
+        {
+            Anomalies.ItemChecked += Anomalies_ItemChecked;
+        }
+
+
 
 
     }
@@ -306,52 +382,52 @@ namespace Ratter
         public string CombatTetherPilot = "";
         public string DropoffBookmark = "";
         public string Ammo = "";
-        public List<string> Anomalies = new List<string> 
+        public Settings.SerializableDictionary<string, bool> Anomalies = new Settings.SerializableDictionary<string, bool> 
         {
-            "Sanctum",
-            "Drone Horde",
-            "Haven",
-            "Drone Patrol",
-            "Forlorn Hub",
-            "Forlorn Drone Squad",
-            "Forsaken Hub",
-            "Forsaken Drone Squad",
-            "Hidden Hub",
-            "Hidden Drone Squad",
-            "Hub",
-            "Drone Squad",
-            "Port",
-            "Drone Herd",
-            "Forlorn Rally Point",
-            "Forlorn Drone Menagerie",
-            "Forsaken Rally Point",
-            "Forsaken Drone Menagerie",
-            "Hidden Rally Point",
-            "Hidden Drone Menagerie",
-            "Rally Point",
-            "Drone Menagerie",
-            "Yard",
-            "Drone Surveillance",
-            "Forlorn Den",
-            "Forlorn Drone Gathering",
-            "Forsaken Den",
-            "Forsaken Drone Gathering",
-            "Hidden Den",
-            "Hidden Drone Gathering",
-            "Den",
-            "Drone Gathering",
-            "Refuge",
-            "Drone Assembly",
-            "Burrow",
-            "Drone Collection",
-            "Forlorn Hideaway",
-            "Forlorn Drone Cluster",
-            "Forsaken Hideaway",
-            "Forsaken Drone Cluster",
-            "Hidden Hideaway",
-            "Hidden Drone Cluster",
-            "Hideaway",
-            "Drone Cluster"
+            {"Sanctum", true},
+            {"Drone Horde", true},
+            {"Haven", true},
+            {"Drone Patrol", true},
+            {"Forlorn Hub", true},
+            {"Forlorn Drone Squad", true},
+            {"Forsaken Hub", true},
+            {"Forsaken Drone Squad", true},
+            {"Hidden Hub", true},
+            {"Hidden Drone Squad", true},
+            {"Hub", true},
+            {"Drone Squad", true},
+            {"Port", true},
+            {"Drone Herd", true},
+            {"Forlorn Rally Point", true},
+            {"Forlorn Drone Menagerie", true},
+            {"Forsaken Rally Point", true},
+            {"Forsaken Drone Menagerie", true},
+            {"Hidden Rally Point", true},
+            {"Hidden Drone Menagerie", true},
+            {"Rally Point", true},
+            {"Drone Menagerie", true},
+            {"Yard", true},
+            {"Drone Surveillance", true},
+            {"Forlorn Den", true},
+            {"Forlorn Drone Gathering", true},
+            {"Forsaken Den", true},
+            {"Forsaken Drone Gathering", true},
+            {"Hidden Den", true},
+            {"Hidden Drone Gathering", true},
+            {"Den", true},
+            {"Drone Gathering", true},
+            {"Refuge", true},
+            {"Drone Assembly", true},
+            {"Burrow", true},
+            {"Drone Collection", true},
+            {"Forlorn Hideaway", true},
+            {"Forlorn Drone Cluster", true},
+            {"Forsaken Hideaway", true},
+            {"Forsaken Drone Cluster", true},
+            {"Hidden Hideaway", true},
+            {"Hidden Drone Cluster", true},
+            {"Hideaway", true},
+            {"Drone Cluster", true}
         };
     }
 
