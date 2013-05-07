@@ -557,6 +557,7 @@ namespace Ratter
             {
                 if (ActiveTarget.LockedTarget)
                 {
+                    Console.Log("Energy Weapons: {0}  Active: {1}  Reloading: {2}  Falloff: {3}", MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon), MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon && a.IsActive), MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon && a.IsReloading), MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon).Min(a => a.FalloffRange));
                     if (MyShip.Modules.Count(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance) > 0)
                     {
                         MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
