@@ -557,25 +557,29 @@ namespace Ratter
             {
                 if (ActiveTarget.LockedTarget)
                 {
-                    Console.Log("Energy Weapons: {0}", MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon));
-                    if (MyShip.Modules.Count(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance) > 0)
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Count(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading) > 0)
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Count(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Count(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance) > 0)
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange < ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        return false;
+                    }
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance))
+                    {
+                        MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                 }
