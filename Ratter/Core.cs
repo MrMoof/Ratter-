@@ -572,23 +572,29 @@ namespace Ratter
                         MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Any(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance))
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Any(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance))
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.FalloffRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.EnergyWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                 }
             }
             else
             {
+                ActiveTarget = null;
                 if (Rats.LockedAndLockingTargetList.Count > 0)
                 {
-                    ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
+                    List<double> MaxRanges = MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy || a.GroupID == Group.MissileLauncherHeavyAssault || a.GroupID == Group.HybridWeapon || a.GroupID == Group.EnergyWeapon).Select(a => a.MaxRange).ToList();
+                    foreach (double i in MaxRanges)
+                    {
+                        ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => a.Distance < i);
+                        if (ActiveTarget != null) break;
+                    }
                 }
             }
 
