@@ -13,8 +13,80 @@ using EveComFramework.Targets;
 using EveCom;
 
 
+
 namespace Ratter
 {
+
+    #region Settings
+
+    internal class RatterSettings : EveComFramework.Core.Settings
+    {
+        public int CargoThreshold = 90;
+        public int WarpDistance = 0;
+        public int SpeedTankRange = 20;
+        public int TargetSlots = 1;
+        public int AmmoQuantity = 90;
+        public int AmmoTrigger = 10;
+        public RatMode Mode = RatMode.Belt;
+        public bool Squat = false;
+        public bool SpeedTank = false;
+        public bool KeepAtRange = false;
+        public bool MovementTether = false;
+        public bool CombatTether = false;
+        public string CombatTetherPilot = "";
+        public string DropoffBookmark = "";
+        public string Ammo = "";
+        public Settings.SerializableDictionary<string, bool> Anomalies = new Settings.SerializableDictionary<string, bool> 
+        {
+            {"Sanctum", true},
+            {"Drone Horde", true},
+            {"Haven", true},
+            {"Drone Patrol", true},
+            {"Forlorn Hub", true},
+            {"Forlorn Drone Squad", true},
+            {"Forsaken Hub", true},
+            {"Forsaken Drone Squad", true},
+            {"Hidden Hub", true},
+            {"Hidden Drone Squad", true},
+            {"Hub", true},
+            {"Drone Squad", true},
+            {"Port", true},
+            {"Drone Herd", true},
+            {"Forlorn Rally Point", true},
+            {"Forlorn Drone Menagerie", true},
+            {"Forsaken Rally Point", true},
+            {"Forsaken Drone Menagerie", true},
+            {"Hidden Rally Point", true},
+            {"Hidden Drone Menagerie", true},
+            {"Rally Point", true},
+            {"Drone Menagerie", true},
+            {"Yard", true},
+            {"Drone Surveillance", true},
+            {"Forlorn Den", true},
+            {"Forlorn Drone Gathering", true},
+            {"Forsaken Den", true},
+            {"Forsaken Drone Gathering", true},
+            {"Hidden Den", true},
+            {"Hidden Drone Gathering", true},
+            {"Den", true},
+            {"Drone Gathering", true},
+            {"Refuge", true},
+            {"Drone Assembly", true},
+            {"Burrow", true},
+            {"Drone Collection", true},
+            {"Forlorn Hideaway", true},
+            {"Forlorn Drone Cluster", true},
+            {"Forsaken Hideaway", true},
+            {"Forsaken Drone Cluster", true},
+            {"Hidden Hideaway", true},
+            {"Hidden Drone Cluster", true},
+            {"Hideaway", true},
+            {"Drone Cluster", true}
+        };
+    }
+
+    #endregion
+
     class UIData : State
     {
         #region Instantiation
@@ -44,6 +116,7 @@ namespace Ratter
         public List<string> Bookmarks { get; set; }
         public List<string> FleetMembers { get; set; }
         public List<string> Cargo { get; set; }
+        public string CharacterName { get; set; }
 
         #endregion
 
@@ -55,6 +128,7 @@ namespace Ratter
             Bookmarks = Bookmark.All.Select(a => a.Title).ToList();
             FleetMembers = Fleet.Members.Select(a => a.Name).ToList();
             Cargo = MyShip.CargoBay.Items.Select(a => a.Type).ToList();
+            CharacterName = Me.Name;
             return false;
         }
 
@@ -80,6 +154,7 @@ namespace Ratter
 
         private Core() : base()
         {
+            
             Rats.AddPriorityTargets();
             Rats.AddNPCs();
             Rats.AddTargetingMe();
@@ -95,9 +170,10 @@ namespace Ratter
         #region Variables
 
         public Logger Console = new Logger();
-        RatterSettings Config = new RatterSettings();
         public Move Move = Move.Instance;
         public Cargo Cargo = Cargo.Instance;
+
+        public RatterSettings Config = new RatterSettings();
         public Security Security = Security.Instance;
         public AutoModule AutoModule = AutoModule.Instance;
         public DroneControl DroneControl = DroneControl.Instance;
@@ -562,14 +638,14 @@ namespace Ratter
                         MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
-                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
                     {
-                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                     if (MyShip.Modules.Any(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
@@ -589,12 +665,16 @@ namespace Ratter
                 ActiveTarget = null;
                 if (Rats.LockedAndLockingTargetList.Count > 0)
                 {
-                    List<double> MaxRanges = MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy || a.GroupID == Group.MissileLauncherHeavyAssault || a.GroupID == Group.HybridWeapon || a.GroupID == Group.EnergyWeapon).Select(a => a.MaxRange).ToList();
+                    List<double> MaxRanges = MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon || a.GroupID == Group.EnergyWeapon).Select(a => a.MaxRange).ToList();
                     foreach (double i in MaxRanges)
                     {
                         ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => a.Distance < i);
-                        if (ActiveTarget != null) break;
+                        if (ActiveTarget != null)
+                        {
+                            return false;
+                        }
                     }
+                    ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
                 }
             }
 

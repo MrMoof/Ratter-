@@ -9,15 +9,16 @@ using System.Windows.Forms;
 using EveCom;
 using EveComFramework.Core;
 
+
 namespace Ratter
 {
     public partial class RatterForm : Form
     {
-        RatterSettings Config = new RatterSettings();
 
         Core Bot = Core.Instance;
+        RatterSettings Config = Core.Instance.Config;
         UIData UI = UIData.Instance;
-
+        Color CurrentBackColor = Color.DarkGray;
 
         public RatterForm()
         {
@@ -27,10 +28,10 @@ namespace Ratter
             Core.Instance.DroneControl.Log.Event += Console;
             Core.Instance.Security.Log.Event += Console;
             Core.Instance.Move.Log.Event += Console;
+            Core.Instance.Config.Updated += LoadSettings;
         }
 
-
-        private void Ratter_Load(object sender, EventArgs e)
+        private void LoadSettings()
         {
             foreach (RatMode m in Enum.GetValues(typeof(RatMode)))
             {
@@ -44,20 +45,8 @@ namespace Ratter
                 temp.Checked = i.Value;
             }
 
-            //using (new EVEFrameLock())
-            //{
-            //    if (Session.InFleet)
-            //    {
-            //        TetherPilot.DataSource = Fleet.Members.Where(a => a.ID != Me.CharID).Select(a => a.Name).ToList();
-            //    }
-            //    DropoffBookmark.DataSource = Bookmark.All.Select(a => a.Title).ToList();
-            //    if (MyShip.CargoBay != null)
-            //    {
-            //        Ammo.DataSource = MyShip.CargoBay.Items.Select(a => a.Type).ToList();
-            //    }
-            //}
             TetherPilot.Text = Config.CombatTetherPilot;
-            
+
             WarpDistance.Value = Config.WarpDistance;
             SpeedTankRange.Value = Config.SpeedTankRange;
             TargetSlots.Value = Config.TargetSlots;
@@ -80,7 +69,12 @@ namespace Ratter
 
             DropoffBookmark.Text = Config.DropoffBookmark;
             Ammo.Text = Config.Ammo;
+        }
 
+        private void Ratter_Load(object sender, EventArgs e)
+        {
+            LoadSettings();
+            timer1.Start();
         }
 
         private void Mode_SelectedIndexChanged(object sender, EventArgs e)
@@ -215,17 +209,61 @@ namespace Ratter
             Core.Instance.AutoModule.Configure();
         }
 
+
+
         delegate void SetConsole(string Message);
 
         void Console(string Message)
         {
-            if (listConsole.InvokeRequired)
+            if (richConsole.InvokeRequired)
             {
-                listConsole.BeginInvoke(new SetConsole(Console), Message);
+                richConsole.BeginInvoke(new SetConsole(Console), Message);
             }
             else
             {
-                listConsole.Items.Add(Message);
+                richConsole.SelectionColor = Color.White;
+                richConsole.SelectionBackColor = CurrentBackColor;
+                if (CurrentBackColor == Color.DarkGray)
+                {
+                    CurrentBackColor = Color.Black;
+                }
+                else
+                {
+                    CurrentBackColor = Color.DarkGray;
+                }
+                Queue<char> StringReader = new Queue<char>(Message);
+                while (StringReader.Any())
+                {
+                    char a = StringReader.Dequeue();
+                    if (a == '|')
+                    {
+                        char color = StringReader.Dequeue();
+                        switch (color)
+                        {
+                            case 'w':
+                                richConsole.SelectionColor = Color.White;
+                                continue;
+                            case 'r':
+                                richConsole.SelectionColor = Color.Red;
+                                continue;
+                            case 'b':
+                                richConsole.SelectionColor = Color.Blue;
+                                continue;
+                            case 'o':
+                                richConsole.SelectionColor = Color.Orange;
+                                continue;
+                            case 'y':
+                                richConsole.SelectionColor = Color.Yellow;
+                                continue;
+                            case 'g':
+                                richConsole.SelectionColor = Color.Green;
+                                continue;
+                        }
+                    }
+                    richConsole.AppendText(a.ToString());
+                }
+                richConsole.AppendText(Environment.NewLine);
+                richConsole.SelectionStart = richConsole.TextLength;
             }
         }
 
@@ -346,8 +384,10 @@ namespace Ratter
             Anomalies.ItemChecked += Anomalies_ItemChecked;
         }
 
-
-
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (UI.CharacterName != null) this.Text = String.Format("Ratter: {0}", UI.CharacterName);
+        }
 
     }
 
@@ -363,75 +403,6 @@ namespace Ratter
 
     #endregion
 
-    #region Settings
-
-    internal class RatterSettings : EveComFramework.Core.Settings
-    {
-        public int CargoThreshold = 90;
-        public int WarpDistance = 0;
-        public int SpeedTankRange = 20;
-        public int TargetSlots = 1;
-        public int AmmoQuantity = 90;
-        public int AmmoTrigger = 10;
-        public RatMode Mode = RatMode.Belt;
-        public bool Squat = false;
-        public bool SpeedTank = false;
-        public bool KeepAtRange = false;
-        public bool MovementTether = false;
-        public bool CombatTether = false;
-        public string CombatTetherPilot = "";
-        public string DropoffBookmark = "";
-        public string Ammo = "";
-        public Settings.SerializableDictionary<string, bool> Anomalies = new Settings.SerializableDictionary<string, bool> 
-        {
-            {"Sanctum", true},
-            {"Drone Horde", true},
-            {"Haven", true},
-            {"Drone Patrol", true},
-            {"Forlorn Hub", true},
-            {"Forlorn Drone Squad", true},
-            {"Forsaken Hub", true},
-            {"Forsaken Drone Squad", true},
-            {"Hidden Hub", true},
-            {"Hidden Drone Squad", true},
-            {"Hub", true},
-            {"Drone Squad", true},
-            {"Port", true},
-            {"Drone Herd", true},
-            {"Forlorn Rally Point", true},
-            {"Forlorn Drone Menagerie", true},
-            {"Forsaken Rally Point", true},
-            {"Forsaken Drone Menagerie", true},
-            {"Hidden Rally Point", true},
-            {"Hidden Drone Menagerie", true},
-            {"Rally Point", true},
-            {"Drone Menagerie", true},
-            {"Yard", true},
-            {"Drone Surveillance", true},
-            {"Forlorn Den", true},
-            {"Forlorn Drone Gathering", true},
-            {"Forsaken Den", true},
-            {"Forsaken Drone Gathering", true},
-            {"Hidden Den", true},
-            {"Hidden Drone Gathering", true},
-            {"Den", true},
-            {"Drone Gathering", true},
-            {"Refuge", true},
-            {"Drone Assembly", true},
-            {"Burrow", true},
-            {"Drone Collection", true},
-            {"Forlorn Hideaway", true},
-            {"Forlorn Drone Cluster", true},
-            {"Forsaken Hideaway", true},
-            {"Forsaken Drone Cluster", true},
-            {"Hidden Hideaway", true},
-            {"Hidden Drone Cluster", true},
-            {"Hideaway", true},
-            {"Drone Cluster", true}
-        };
-    }
-
-    #endregion
 
     public class MyAutoCompleteStringCollection : AutoCompleteStringCollection
     {

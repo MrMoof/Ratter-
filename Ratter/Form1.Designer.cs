@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RatterForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -38,7 +39,7 @@
             this.Mode = new System.Windows.Forms.ComboBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.listConsole = new System.Windows.Forms.ListBox();
+            this.richConsole = new System.Windows.Forms.RichTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -77,6 +78,7 @@
             this.AutoModuleConfig = new System.Windows.Forms.Button();
             this.SecurityConfig = new System.Windows.Forms.Button();
             this.Toggle = new System.Windows.Forms.CheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -195,7 +197,7 @@
             // 
             // tabPage9
             // 
-            this.tabPage9.Controls.Add(this.listConsole);
+            this.tabPage9.Controls.Add(this.richConsole);
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
@@ -204,16 +206,16 @@
             this.tabPage9.Text = "Console";
             this.tabPage9.UseVisualStyleBackColor = true;
             // 
-            // listConsole
+            // richConsole
             // 
-            this.listConsole.BackColor = System.Drawing.Color.Black;
-            this.listConsole.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listConsole.ForeColor = System.Drawing.Color.White;
-            this.listConsole.FormattingEnabled = true;
-            this.listConsole.Location = new System.Drawing.Point(6, 6);
-            this.listConsole.Name = "listConsole";
-            this.listConsole.Size = new System.Drawing.Size(294, 316);
-            this.listConsole.TabIndex = 0;
+            this.richConsole.BackColor = System.Drawing.Color.Black;
+            this.richConsole.ForeColor = System.Drawing.Color.White;
+            this.richConsole.Location = new System.Drawing.Point(6, 6);
+            this.richConsole.Name = "richConsole";
+            this.richConsole.Size = new System.Drawing.Size(294, 322);
+            this.richConsole.TabIndex = 1;
+            this.richConsole.Text = "";
+            this.richConsole.WordWrap = false;
             // 
             // tabPage3
             // 
@@ -313,6 +315,7 @@
             this.TetherPilot.Name = "TetherPilot";
             this.TetherPilot.Size = new System.Drawing.Size(282, 21);
             this.TetherPilot.TabIndex = 5;
+            this.TetherPilot.TextChanged += new System.EventHandler(this.TetherPilot_SelectedIndexChanged);
             // 
             // groupBox5
             // 
@@ -646,15 +649,20 @@
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.CheckedChanged += new System.EventHandler(this.Toggle_CheckedChanged);
             // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // RatterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 396);
+            this.ClientSize = new System.Drawing.Size(334, 391);
             this.Controls.Add(this.Toggle);
             this.Controls.Add(this.tabControl2);
             this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "RatterForm";
             this.Text = "Ratter";
             this.Load += new System.EventHandler(this.Ratter_Load);
@@ -730,7 +738,6 @@
         private System.Windows.Forms.Button SecurityConfig;
         private System.Windows.Forms.Button AutoModuleConfig;
         private System.Windows.Forms.TabPage tabPage9;
-        private System.Windows.Forms.ListBox listConsole;
         private System.Windows.Forms.Button DroneControlConfig;
         private System.Windows.Forms.CheckBox Toggle;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -745,6 +752,8 @@
         private System.Windows.Forms.TrackBar WarpDistance;
         private System.Windows.Forms.CheckBox Tether;
         private System.Windows.Forms.TextBox TetherPilot;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.RichTextBox richConsole;
     }
 }
 
