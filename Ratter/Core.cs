@@ -569,7 +569,7 @@ namespace Ratter
                 else if (!Config.SpeedTank)
                 {
                     InnerSpaceAPI.InnerSpace.Echo("Move: " + FirstWreck.Name);
-                    Move.Approach(FirstWreck, 1000);
+                    Move.Approach(FirstWreck, Config.SpeedTankRange * 1000);
                 }
             }
 
