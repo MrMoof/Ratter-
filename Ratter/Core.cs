@@ -642,6 +642,11 @@ namespace Ratter
                         MyShip.Modules.Where(a => a.GroupID == Group.StasisWeb && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.TargetPainter && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
+                    {
+                        MyShip.Modules.Where(a => a.GroupID == Group.TargetPainter && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance).ForEach(a => a.Activate(ActiveTarget));
+                        return false;
+                    }
                     if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
                     {
                         MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavy && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
