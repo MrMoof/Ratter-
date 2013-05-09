@@ -51,6 +51,10 @@ namespace Ratter
             WarpDistance.Value = Config.WarpDistance;
             SpeedTankRange.Value = Config.SpeedTankRange;
             TargetSlots.Value = Config.TargetSlots;
+            LastPrimary.Checked = Config.LastPrimary;
+            RandomMidPrimary.Checked = Config.RandomMidPrimary;
+            FirstPrimary.Checked = Config.FirstPrimary;
+            RandomPrimary.Checked = Config.RandomPrimary;
             CargoThreshold.Value = Config.CargoThreshold;
             AmmoQuantity.Value = Config.AmmoQuantity;
             AmmoTrigger.Value = Config.AmmoTrigger;
@@ -140,6 +144,30 @@ namespace Ratter
         {
             Config.TargetSlots = TargetSlots.Value;
             TargetSlotsLabel.Text = String.Format("Use {0} target for weapons", Config.TargetSlots);
+            Config.Save();
+        }
+
+        private void LastPrimary_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.LastPrimary = LastPrimary.Checked;
+            Config.Save();
+        }
+
+        private void RandomMidPrimary_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.RandomMidPrimary = RandomMidPrimary.Checked;
+            Config.Save();
+        }
+
+        private void FirstPrimary_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.FirstPrimary = FirstPrimary.Checked;
+            Config.Save();
+        }
+
+        private void RandomPrimary_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.RandomPrimary = RandomPrimary.Checked;
             Config.Save();
         }
 

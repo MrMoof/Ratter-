@@ -43,6 +43,11 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.PrimaryTargettingGroup = new System.Windows.Forms.GroupBox();
+            this.RandomPrimary = new System.Windows.Forms.RadioButton();
+            this.FirstPrimary = new System.Windows.Forms.RadioButton();
+            this.RandomMidPrimary = new System.Windows.Forms.RadioButton();
+            this.LastPrimary = new System.Windows.Forms.RadioButton();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.WarpDistanceLabel = new System.Windows.Forms.Label();
             this.WarpDistance = new System.Windows.Forms.TrackBar();
@@ -95,6 +100,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            this.PrimaryTargettingGroup.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -265,6 +271,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.PrimaryTargettingGroup);
             this.tabPage4.Controls.Add(this.groupBox7);
             this.tabPage4.Controls.Add(this.groupBox5);
             this.tabPage4.Controls.Add(this.groupBox4);
@@ -276,15 +283,76 @@
             this.tabPage4.Text = "Combat";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // PrimaryTargettingGroup
+            // 
+            this.PrimaryTargettingGroup.Controls.Add(this.RandomPrimary);
+            this.PrimaryTargettingGroup.Controls.Add(this.FirstPrimary);
+            this.PrimaryTargettingGroup.Controls.Add(this.RandomMidPrimary);
+            this.PrimaryTargettingGroup.Controls.Add(this.LastPrimary);
+            this.PrimaryTargettingGroup.Location = new System.Drawing.Point(7, 174);
+            this.PrimaryTargettingGroup.Name = "PrimaryTargettingGroup";
+            this.PrimaryTargettingGroup.Size = new System.Drawing.Size(338, 44);
+            this.PrimaryTargettingGroup.TabIndex = 10;
+            this.PrimaryTargettingGroup.TabStop = false;
+            this.PrimaryTargettingGroup.Text = "Primary Targetting";
+            // 
+            // RandomPrimary
+            // 
+            this.RandomPrimary.AutoSize = true;
+            this.RandomPrimary.Location = new System.Drawing.Point(278, 21);
+            this.RandomPrimary.Name = "RandomPrimary";
+            this.RandomPrimary.Size = new System.Drawing.Size(63, 17);
+            this.RandomPrimary.TabIndex = 3;
+            this.RandomPrimary.TabStop = true;
+            this.RandomPrimary.Text = "Random";
+            this.RandomPrimary.UseVisualStyleBackColor = true;
+            this.RandomPrimary.CheckedChanged += new System.EventHandler(this.RandomPrimary_CheckedChanged);
+            // 
+            // FirstPrimary
+            // 
+            this.FirstPrimary.AutoSize = true;
+            this.FirstPrimary.Location = new System.Drawing.Point(185, 21);
+            this.FirstPrimary.Name = "FirstPrimary";
+            this.FirstPrimary.Size = new System.Drawing.Size(87, 17);
+            this.FirstPrimary.TabIndex = 2;
+            this.FirstPrimary.TabStop = true;
+            this.FirstPrimary.Text = "Right Primary";
+            this.FirstPrimary.UseVisualStyleBackColor = true;
+            this.FirstPrimary.CheckedChanged += new System.EventHandler(this.FirstPrimary_CheckedChanged);
+            // 
+            // RandomMidPrimary
+            // 
+            this.RandomMidPrimary.AutoSize = true;
+            this.RandomMidPrimary.Location = new System.Drawing.Point(95, 21);
+            this.RandomMidPrimary.Name = "RandomMidPrimary";
+            this.RandomMidPrimary.Size = new System.Drawing.Size(84, 17);
+            this.RandomMidPrimary.TabIndex = 1;
+            this.RandomMidPrimary.TabStop = true;
+            this.RandomMidPrimary.Text = "Random Mid";
+            this.RandomMidPrimary.UseVisualStyleBackColor = true;
+            this.RandomMidPrimary.CheckedChanged += new System.EventHandler(this.RandomMidPrimary_CheckedChanged);
+            // 
+            // LastPrimary
+            // 
+            this.LastPrimary.AutoSize = true;
+            this.LastPrimary.Location = new System.Drawing.Point(8, 21);
+            this.LastPrimary.Name = "LastPrimary";
+            this.LastPrimary.Size = new System.Drawing.Size(81, 17);
+            this.LastPrimary.TabIndex = 0;
+            this.LastPrimary.TabStop = true;
+            this.LastPrimary.Text = "Last Primary";
+            this.LastPrimary.UseVisualStyleBackColor = true;
+            this.LastPrimary.CheckedChanged += new System.EventHandler(this.LastPrimary_CheckedChanged);
+            // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.WarpDistanceLabel);
             this.groupBox7.Controls.Add(this.WarpDistance);
             this.groupBox7.Controls.Add(this.Tether);
             this.groupBox7.Controls.Add(this.TetherPilot);
-            this.groupBox7.Location = new System.Drawing.Point(6, 212);
+            this.groupBox7.Location = new System.Drawing.Point(6, 224);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(345, 117);
+            this.groupBox7.Size = new System.Drawing.Size(345, 105);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Warp In";
@@ -292,7 +360,7 @@
             // WarpDistanceLabel
             // 
             this.WarpDistanceLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.WarpDistanceLabel.Location = new System.Drawing.Point(6, 43);
+            this.WarpDistanceLabel.Location = new System.Drawing.Point(6, 38);
             this.WarpDistanceLabel.Name = "WarpDistanceLabel";
             this.WarpDistanceLabel.Size = new System.Drawing.Size(333, 19);
             this.WarpDistanceLabel.TabIndex = 3;
@@ -302,7 +370,7 @@
             // WarpDistance
             // 
             this.WarpDistance.BackColor = System.Drawing.SystemColors.Control;
-            this.WarpDistance.Location = new System.Drawing.Point(6, 17);
+            this.WarpDistance.Location = new System.Drawing.Point(6, 14);
             this.WarpDistance.Maximum = 100;
             this.WarpDistance.Name = "WarpDistance";
             this.WarpDistance.Size = new System.Drawing.Size(333, 45);
@@ -314,7 +382,7 @@
             // Tether
             // 
             this.Tether.AutoSize = true;
-            this.Tether.Location = new System.Drawing.Point(6, 65);
+            this.Tether.Location = new System.Drawing.Point(6, 58);
             this.Tether.Name = "Tether";
             this.Tether.Size = new System.Drawing.Size(134, 17);
             this.Tether.TabIndex = 4;
@@ -326,7 +394,7 @@
             // 
             this.TetherPilot.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.TetherPilot.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-            this.TetherPilot.Location = new System.Drawing.Point(6, 88);
+            this.TetherPilot.Location = new System.Drawing.Point(6, 78);
             this.TetherPilot.Name = "TetherPilot";
             this.TetherPilot.Size = new System.Drawing.Size(333, 21);
             this.TetherPilot.TabIndex = 5;
@@ -336,9 +404,9 @@
             // 
             this.groupBox5.Controls.Add(this.TargetSlotsLabel);
             this.groupBox5.Controls.Add(this.TargetSlots);
-            this.groupBox5.Location = new System.Drawing.Point(6, 141);
+            this.groupBox5.Location = new System.Drawing.Point(6, 95);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(345, 67);
+            this.groupBox5.Size = new System.Drawing.Size(345, 72);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Targeting";
@@ -346,9 +414,9 @@
             // TargetSlotsLabel
             // 
             this.TargetSlotsLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TargetSlotsLabel.Location = new System.Drawing.Point(6, 46);
+            this.TargetSlotsLabel.Location = new System.Drawing.Point(6, 41);
             this.TargetSlotsLabel.Name = "TargetSlotsLabel";
-            this.TargetSlotsLabel.Size = new System.Drawing.Size(333, 19);
+            this.TargetSlotsLabel.Size = new System.Drawing.Size(333, 12);
             this.TargetSlotsLabel.TabIndex = 6;
             this.TargetSlotsLabel.Text = "Use 1 target for weapons";
             this.TargetSlotsLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -376,7 +444,7 @@
             this.groupBox4.Controls.Add(this.Squat);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(345, 134);
+            this.groupBox4.Size = new System.Drawing.Size(345, 86);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Combat Movement";
@@ -384,7 +452,7 @@
             // KeepAtRange
             // 
             this.KeepAtRange.AutoSize = true;
-            this.KeepAtRange.Location = new System.Drawing.Point(81, 66);
+            this.KeepAtRange.Location = new System.Drawing.Point(80, 66);
             this.KeepAtRange.Name = "KeepAtRange";
             this.KeepAtRange.Size = new System.Drawing.Size(91, 17);
             this.KeepAtRange.TabIndex = 7;
@@ -406,9 +474,9 @@
             // SpeedTankRangeLabel
             // 
             this.SpeedTankRangeLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SpeedTankRangeLabel.Location = new System.Drawing.Point(6, 115);
+            this.SpeedTankRangeLabel.Location = new System.Drawing.Point(177, 41);
             this.SpeedTankRangeLabel.Name = "SpeedTankRangeLabel";
-            this.SpeedTankRangeLabel.Size = new System.Drawing.Size(333, 19);
+            this.SpeedTankRangeLabel.Size = new System.Drawing.Size(162, 19);
             this.SpeedTankRangeLabel.TabIndex = 4;
             this.SpeedTankRangeLabel.Text = "Speed tank at 1 km";
             this.SpeedTankRangeLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -416,11 +484,11 @@
             // SpeedTankRange
             // 
             this.SpeedTankRange.BackColor = System.Drawing.SystemColors.Control;
-            this.SpeedTankRange.Location = new System.Drawing.Point(6, 89);
+            this.SpeedTankRange.Location = new System.Drawing.Point(177, 15);
             this.SpeedTankRange.Maximum = 100;
             this.SpeedTankRange.Minimum = 1;
             this.SpeedTankRange.Name = "SpeedTankRange";
-            this.SpeedTankRange.Size = new System.Drawing.Size(333, 45);
+            this.SpeedTankRange.Size = new System.Drawing.Size(162, 45);
             this.SpeedTankRange.TabIndex = 3;
             this.SpeedTankRange.Tag = "Use this slider to indicate how close to orbit the nearest NPC";
             this.SpeedTankRange.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -435,7 +503,7 @@
             this.SpeedTank.Size = new System.Drawing.Size(77, 17);
             this.SpeedTank.TabIndex = 2;
             this.SpeedTank.Tag = "With this option enabled, ComBot will orbit the nearest hostile NPC using the dis" +
-                "tance below";
+    "tance below";
             this.SpeedTank.Text = "Speed Tank";
             this.SpeedTank.UseVisualStyleBackColor = true;
             this.SpeedTank.CheckedChanged += new System.EventHandler(this.SpeedTank_CheckedChanged);
@@ -448,7 +516,7 @@
             this.Squat.Size = new System.Drawing.Size(116, 17);
             this.Squat.TabIndex = 0;
             this.Squat.Tag = "With this option enabled, ComBot will approach the first wreck it sees at a ratti" +
-                "ng location and stop within 1km";
+    "ng location and stop within 1km";
             this.Squat.Text = "Squat on first wreck";
             this.Squat.UseVisualStyleBackColor = true;
             this.Squat.CheckedChanged += new System.EventHandler(this.Squat_CheckedChanged);
@@ -785,6 +853,8 @@
             this.groupBox6.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.PrimaryTargettingGroup.ResumeLayout(false);
+            this.PrimaryTargettingGroup.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WarpDistance)).EndInit();
@@ -879,6 +949,11 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button btnDeleteProfile;
         private System.Windows.Forms.Button btnLoadProfile;
+        private System.Windows.Forms.GroupBox PrimaryTargettingGroup;
+        private System.Windows.Forms.RadioButton RandomPrimary;
+        private System.Windows.Forms.RadioButton FirstPrimary;
+        private System.Windows.Forms.RadioButton RandomMidPrimary;
+        private System.Windows.Forms.RadioButton LastPrimary;
     }
 }
 
