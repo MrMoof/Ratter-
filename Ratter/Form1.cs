@@ -28,6 +28,7 @@ namespace Ratter
             Core.Instance.DroneControl.Log.Event += Console;
             Core.Instance.Security.Log.Event += Console;
             Core.Instance.Move.Log.Event += Console;
+            Core.Instance.Cargo.Log.Event += Console;
             Core.Instance.Config.Updated += LoadSettings;
         }
 
