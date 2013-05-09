@@ -223,6 +223,7 @@
             // 
             this.richConsole.BackColor = System.Drawing.Color.Black;
             this.richConsole.ForeColor = System.Drawing.Color.White;
+            this.richConsole.HideSelection = false;
             this.richConsole.Location = new System.Drawing.Point(6, 6);
             this.richConsole.Name = "richConsole";
             this.richConsole.Size = new System.Drawing.Size(345, 322);

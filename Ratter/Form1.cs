@@ -18,7 +18,7 @@ namespace Ratter
         Core Bot = Core.Instance;
         RatterSettings Config = Core.Instance.Config;
         UIData UI = UIData.Instance;
-        Color CurrentBackColor = Color.DarkGray;
+        Color CurrentBackColor = Color.Black;
 
         public RatterForm()
         {
@@ -219,13 +219,13 @@ namespace Ratter
             {
                 richConsole.SelectionColor = Color.White;
                 richConsole.SelectionBackColor = CurrentBackColor;
-                if (CurrentBackColor == Color.DarkGray)
+                if (CurrentBackColor == Color.Black)
                 {
-                    CurrentBackColor = Color.Black;
+                    CurrentBackColor = Color.FromArgb(50,50,50);
                 }
                 else
                 {
-                    CurrentBackColor = Color.DarkGray;
+                    CurrentBackColor = Color.Black;
                 }
                 Queue<char> StringReader = new Queue<char>(Message);
                 while (StringReader.Any())
@@ -258,7 +258,7 @@ namespace Ratter
                     }
                     richConsole.AppendText(a.ToString());
                 }
-                richConsole.AppendText(Environment.NewLine);
+                richConsole.AppendText(new string(' ', 400) + Environment.NewLine);
                 richConsole.SelectionStart = richConsole.TextLength;
             }
         }

@@ -321,10 +321,10 @@ namespace Ratter
 
         bool Dropoff(object[] Params)
         {
-            Cargo.At(Bookmark.All.FirstOrDefault(a => a.Title.StartsWith(Config.DropoffBookmark)), () => MyShip.CargoBay).Unload();
+            Cargo.At(Bookmark.All.FirstOrDefault(a => a.Title == Config.DropoffBookmark), () => MyShip.CargoBay).Unload();
             if (Config.Ammo != "")
             {
-                Cargo.At(Bookmark.All.FirstOrDefault(a => a.Title.StartsWith(Config.DropoffBookmark)), () => Station.ItemHangar).Load(item => item.Type == Config.Ammo);
+                Cargo.At(Bookmark.All.FirstOrDefault(a => a.Title == Config.DropoffBookmark), () => Station.ItemHangar).Load(item => item.Type == Config.Ammo);
             }
             return true;
         }
@@ -367,7 +367,7 @@ namespace Ratter
 
             if (Config.MovementTether)
             {
-                Fleet.Members.FirstOrDefault(a => a.Name.Contains(Config.CombatTetherPilot)).WarpTo(Config.WarpDistance);
+                Fleet.Members.FirstOrDefault(a => a.Name == Config.CombatTetherPilot).WarpTo(Config.WarpDistance);
                 InsertState(Traveling, 2000);
                 InsertState(Reload);
                 InsertState(PrepareWarp);
