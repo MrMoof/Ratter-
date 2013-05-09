@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using EveComFramework.Core;
+using LavishScriptAPI;
 
 namespace Ratter
 {
@@ -20,12 +21,12 @@ namespace Ratter
             }
             else
             {
-                Config.Instance.DefaultProfile = "Ratter-Settings.xml";
+                Config.Instance.DefaultProfile = "Ratter-Settings";
             }
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run();
+            Application.Run(new RatterForm());
         }
     }
 }

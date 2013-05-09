@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RatterForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
@@ -77,8 +76,17 @@
             this.DroneControlConfig = new System.Windows.Forms.Button();
             this.AutoModuleConfig = new System.Windows.Forms.Button();
             this.SecurityConfig = new System.Windows.Forms.Button();
+            this.tabPage10 = new System.Windows.Forms.TabPage();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.btnSaveProfile = new System.Windows.Forms.Button();
+            this.textNewProfile = new System.Windows.Forms.TextBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btnDeleteProfile = new System.Windows.Forms.Button();
+            this.btnLoadProfile = new System.Windows.Forms.Button();
+            this.listProfiles = new System.Windows.Forms.ListBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.lblCurrentProfile = new System.Windows.Forms.Label();
             this.Toggle = new System.Windows.Forms.CheckBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -103,6 +111,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.AmmoQuantity)).BeginInit();
             this.groupBox8.SuspendLayout();
             this.tabPage8.SuspendLayout();
+            this.tabPage10.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -113,7 +125,7 @@
             this.tabControl1.Location = new System.Drawing.Point(6, 20);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(282, 249);
+            this.tabControl1.Size = new System.Drawing.Size(333, 249);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -122,7 +134,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(274, 223);
+            this.tabPage1.Size = new System.Drawing.Size(325, 223);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Anomaly";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -137,7 +149,7 @@
             this.Anomalies.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.Anomalies.Location = new System.Drawing.Point(6, 6);
             this.Anomalies.Name = "Anomalies";
-            this.Anomalies.Size = new System.Drawing.Size(262, 211);
+            this.Anomalies.Size = new System.Drawing.Size(313, 211);
             this.Anomalies.TabIndex = 6;
             this.Anomalies.UseCompatibleStateImageBehavior = false;
             this.Anomalies.View = System.Windows.Forms.View.Details;
@@ -155,7 +167,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(274, 223);
+            this.tabPage2.Size = new System.Drawing.Size(325, 223);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Bookmark";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -165,7 +177,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(274, 223);
+            this.tabPage5.Size = new System.Drawing.Size(325, 223);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Belt";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -175,7 +187,7 @@
             this.Mode.FormattingEnabled = true;
             this.Mode.Location = new System.Drawing.Point(6, 20);
             this.Mode.Name = "Mode";
-            this.Mode.Size = new System.Drawing.Size(282, 21);
+            this.Mode.Size = new System.Drawing.Size(333, 21);
             this.Mode.TabIndex = 0;
             this.Mode.SelectedIndexChanged += new System.EventHandler(this.Mode_SelectedIndexChanged);
             // 
@@ -187,11 +199,12 @@
             this.tabControl2.Controls.Add(this.tabPage6);
             this.tabControl2.Controls.Add(this.tabPage7);
             this.tabControl2.Controls.Add(this.tabPage8);
+            this.tabControl2.Controls.Add(this.tabPage10);
             this.tabControl2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl2.Location = new System.Drawing.Point(12, 25);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(314, 360);
+            this.tabControl2.Size = new System.Drawing.Size(365, 360);
             this.tabControl2.TabIndex = 2;
             this.tabControl2.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
             // 
@@ -201,7 +214,7 @@
             this.tabPage9.Location = new System.Drawing.Point(4, 22);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(306, 334);
+            this.tabPage9.Size = new System.Drawing.Size(357, 334);
             this.tabPage9.TabIndex = 5;
             this.tabPage9.Text = "Console";
             this.tabPage9.UseVisualStyleBackColor = true;
@@ -212,7 +225,7 @@
             this.richConsole.ForeColor = System.Drawing.Color.White;
             this.richConsole.Location = new System.Drawing.Point(6, 6);
             this.richConsole.Name = "richConsole";
-            this.richConsole.Size = new System.Drawing.Size(294, 322);
+            this.richConsole.Size = new System.Drawing.Size(345, 322);
             this.richConsole.TabIndex = 1;
             this.richConsole.Text = "";
             this.richConsole.WordWrap = false;
@@ -224,7 +237,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(306, 334);
+            this.tabPage3.Size = new System.Drawing.Size(357, 334);
             this.tabPage3.TabIndex = 0;
             this.tabPage3.Text = "Movement";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -234,7 +247,7 @@
             this.groupBox6.Controls.Add(this.tabControl1);
             this.groupBox6.Location = new System.Drawing.Point(6, 53);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(294, 275);
+            this.groupBox6.Size = new System.Drawing.Size(345, 275);
             this.groupBox6.TabIndex = 7;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Objective";
@@ -244,7 +257,7 @@
             this.groupBox3.Controls.Add(this.Mode);
             this.groupBox3.Location = new System.Drawing.Point(6, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(294, 47);
+            this.groupBox3.Size = new System.Drawing.Size(345, 47);
             this.groupBox3.TabIndex = 6;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Mode";
@@ -257,7 +270,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(306, 334);
+            this.tabPage4.Size = new System.Drawing.Size(357, 334);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Combat";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -270,7 +283,7 @@
             this.groupBox7.Controls.Add(this.TetherPilot);
             this.groupBox7.Location = new System.Drawing.Point(6, 212);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(294, 117);
+            this.groupBox7.Size = new System.Drawing.Size(345, 117);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Warp In";
@@ -280,7 +293,7 @@
             this.WarpDistanceLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.WarpDistanceLabel.Location = new System.Drawing.Point(6, 43);
             this.WarpDistanceLabel.Name = "WarpDistanceLabel";
-            this.WarpDistanceLabel.Size = new System.Drawing.Size(282, 19);
+            this.WarpDistanceLabel.Size = new System.Drawing.Size(333, 19);
             this.WarpDistanceLabel.TabIndex = 3;
             this.WarpDistanceLabel.Text = "Warp to 0 km";
             this.WarpDistanceLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -291,7 +304,7 @@
             this.WarpDistance.Location = new System.Drawing.Point(6, 17);
             this.WarpDistance.Maximum = 100;
             this.WarpDistance.Name = "WarpDistance";
-            this.WarpDistance.Size = new System.Drawing.Size(282, 45);
+            this.WarpDistance.Size = new System.Drawing.Size(333, 45);
             this.WarpDistance.TabIndex = 2;
             this.WarpDistance.Tag = "Use this slider to indicate how close ComBot should warp to ratting locations";
             this.WarpDistance.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -306,6 +319,7 @@
             this.Tether.TabIndex = 4;
             this.Tether.Text = "Tether to fleet member";
             this.Tether.UseVisualStyleBackColor = true;
+            this.Tether.CheckedChanged += new System.EventHandler(this.Tether_CheckedChanged);
             // 
             // TetherPilot
             // 
@@ -313,9 +327,9 @@
             this.TetherPilot.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.TetherPilot.Location = new System.Drawing.Point(6, 88);
             this.TetherPilot.Name = "TetherPilot";
-            this.TetherPilot.Size = new System.Drawing.Size(282, 21);
+            this.TetherPilot.Size = new System.Drawing.Size(333, 21);
             this.TetherPilot.TabIndex = 5;
-            this.TetherPilot.TextChanged += new System.EventHandler(this.TetherPilot_SelectedIndexChanged);
+            this.TetherPilot.TextChanged += new System.EventHandler(this.TetherPilot_TextChanged);
             // 
             // groupBox5
             // 
@@ -323,7 +337,7 @@
             this.groupBox5.Controls.Add(this.TargetSlots);
             this.groupBox5.Location = new System.Drawing.Point(6, 141);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(294, 67);
+            this.groupBox5.Size = new System.Drawing.Size(345, 67);
             this.groupBox5.TabIndex = 3;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Targeting";
@@ -333,7 +347,7 @@
             this.TargetSlotsLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TargetSlotsLabel.Location = new System.Drawing.Point(6, 46);
             this.TargetSlotsLabel.Name = "TargetSlotsLabel";
-            this.TargetSlotsLabel.Size = new System.Drawing.Size(282, 19);
+            this.TargetSlotsLabel.Size = new System.Drawing.Size(333, 19);
             this.TargetSlotsLabel.TabIndex = 6;
             this.TargetSlotsLabel.Text = "Use 1 target for weapons";
             this.TargetSlotsLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -344,7 +358,7 @@
             this.TargetSlots.Location = new System.Drawing.Point(6, 20);
             this.TargetSlots.Maximum = 15;
             this.TargetSlots.Name = "TargetSlots";
-            this.TargetSlots.Size = new System.Drawing.Size(282, 45);
+            this.TargetSlots.Size = new System.Drawing.Size(333, 45);
             this.TargetSlots.TabIndex = 5;
             this.TargetSlots.Tag = "Use this slider to indicate how close to orbit the nearest NPC";
             this.TargetSlots.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -361,7 +375,7 @@
             this.groupBox4.Controls.Add(this.Squat);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(294, 134);
+            this.groupBox4.Size = new System.Drawing.Size(345, 134);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Combat Movement";
@@ -393,7 +407,7 @@
             this.SpeedTankRangeLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SpeedTankRangeLabel.Location = new System.Drawing.Point(6, 115);
             this.SpeedTankRangeLabel.Name = "SpeedTankRangeLabel";
-            this.SpeedTankRangeLabel.Size = new System.Drawing.Size(282, 19);
+            this.SpeedTankRangeLabel.Size = new System.Drawing.Size(333, 19);
             this.SpeedTankRangeLabel.TabIndex = 4;
             this.SpeedTankRangeLabel.Text = "Speed tank at 1 km";
             this.SpeedTankRangeLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -405,7 +419,7 @@
             this.SpeedTankRange.Maximum = 100;
             this.SpeedTankRange.Minimum = 1;
             this.SpeedTankRange.Name = "SpeedTankRange";
-            this.SpeedTankRange.Size = new System.Drawing.Size(282, 45);
+            this.SpeedTankRange.Size = new System.Drawing.Size(333, 45);
             this.SpeedTankRange.TabIndex = 3;
             this.SpeedTankRange.Tag = "Use this slider to indicate how close to orbit the nearest NPC";
             this.SpeedTankRange.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -445,7 +459,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(306, 334);
+            this.tabPage6.Size = new System.Drawing.Size(357, 334);
             this.tabPage6.TabIndex = 2;
             this.tabPage6.Text = "Dropoff";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -456,7 +470,7 @@
             this.groupBox1.Controls.Add(this.CargoThreshold);
             this.groupBox1.Location = new System.Drawing.Point(6, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(294, 64);
+            this.groupBox1.Size = new System.Drawing.Size(345, 64);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Threshold";
@@ -466,7 +480,7 @@
             this.CargoThresholdLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CargoThresholdLabel.Location = new System.Drawing.Point(7, 46);
             this.CargoThresholdLabel.Name = "CargoThresholdLabel";
-            this.CargoThresholdLabel.Size = new System.Drawing.Size(281, 19);
+            this.CargoThresholdLabel.Size = new System.Drawing.Size(332, 19);
             this.CargoThresholdLabel.TabIndex = 4;
             this.CargoThresholdLabel.Text = "90%";
             this.CargoThresholdLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -477,7 +491,7 @@
             this.CargoThreshold.Location = new System.Drawing.Point(7, 20);
             this.CargoThreshold.Maximum = 100;
             this.CargoThreshold.Name = "CargoThreshold";
-            this.CargoThreshold.Size = new System.Drawing.Size(281, 45);
+            this.CargoThreshold.Size = new System.Drawing.Size(332, 45);
             this.CargoThreshold.TabIndex = 3;
             this.CargoThreshold.Tag = resources.GetString("CargoThreshold.Tag");
             this.CargoThreshold.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -489,7 +503,7 @@
             this.groupBox2.Controls.Add(this.DropoffBookmark);
             this.groupBox2.Location = new System.Drawing.Point(6, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(294, 47);
+            this.groupBox2.Size = new System.Drawing.Size(345, 47);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Bookmark";
@@ -500,7 +514,7 @@
             this.DropoffBookmark.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.DropoffBookmark.Location = new System.Drawing.Point(6, 20);
             this.DropoffBookmark.Name = "DropoffBookmark";
-            this.DropoffBookmark.Size = new System.Drawing.Size(282, 21);
+            this.DropoffBookmark.Size = new System.Drawing.Size(333, 21);
             this.DropoffBookmark.TabIndex = 1;
             this.DropoffBookmark.TextChanged += new System.EventHandler(this.DropoffBookmarkFilter_TextChanged);
             // 
@@ -511,7 +525,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(306, 334);
+            this.tabPage7.Size = new System.Drawing.Size(357, 334);
             this.tabPage7.TabIndex = 3;
             this.tabPage7.Text = "Ammo";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -524,7 +538,7 @@
             this.groupBox9.Controls.Add(this.AmmoQuantity);
             this.groupBox9.Location = new System.Drawing.Point(7, 62);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(293, 111);
+            this.groupBox9.Size = new System.Drawing.Size(344, 111);
             this.groupBox9.TabIndex = 8;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Threshold";
@@ -534,7 +548,7 @@
             this.AmmoQuantityLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AmmoQuantityLabel.Location = new System.Drawing.Point(6, 46);
             this.AmmoQuantityLabel.Name = "AmmoQuantityLabel";
-            this.AmmoQuantityLabel.Size = new System.Drawing.Size(281, 19);
+            this.AmmoQuantityLabel.Size = new System.Drawing.Size(332, 19);
             this.AmmoQuantityLabel.TabIndex = 4;
             this.AmmoQuantityLabel.Text = "Fill 90% of cargo hold with ammo";
             this.AmmoQuantityLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -544,7 +558,7 @@
             this.AmmoTriggerLabel.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AmmoTriggerLabel.Location = new System.Drawing.Point(6, 94);
             this.AmmoTriggerLabel.Name = "AmmoTriggerLabel";
-            this.AmmoTriggerLabel.Size = new System.Drawing.Size(281, 19);
+            this.AmmoTriggerLabel.Size = new System.Drawing.Size(332, 19);
             this.AmmoTriggerLabel.TabIndex = 6;
             this.AmmoTriggerLabel.Text = "Reload if less than 10% ammo in cargo hold";
             this.AmmoTriggerLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -555,7 +569,7 @@
             this.AmmoTrigger.Location = new System.Drawing.Point(6, 68);
             this.AmmoTrigger.Maximum = 100;
             this.AmmoTrigger.Name = "AmmoTrigger";
-            this.AmmoTrigger.Size = new System.Drawing.Size(281, 45);
+            this.AmmoTrigger.Size = new System.Drawing.Size(332, 45);
             this.AmmoTrigger.TabIndex = 5;
             this.AmmoTrigger.Tag = resources.GetString("AmmoTrigger.Tag");
             this.AmmoTrigger.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -568,7 +582,7 @@
             this.AmmoQuantity.Location = new System.Drawing.Point(6, 20);
             this.AmmoQuantity.Maximum = 100;
             this.AmmoQuantity.Name = "AmmoQuantity";
-            this.AmmoQuantity.Size = new System.Drawing.Size(281, 45);
+            this.AmmoQuantity.Size = new System.Drawing.Size(332, 45);
             this.AmmoQuantity.TabIndex = 3;
             this.AmmoQuantity.Tag = resources.GetString("AmmoQuantity.Tag");
             this.AmmoQuantity.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -580,7 +594,7 @@
             this.groupBox8.Controls.Add(this.Ammo);
             this.groupBox8.Location = new System.Drawing.Point(7, 7);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(293, 48);
+            this.groupBox8.Size = new System.Drawing.Size(344, 48);
             this.groupBox8.TabIndex = 7;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Ammo";
@@ -591,7 +605,7 @@
             this.Ammo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.Ammo.Location = new System.Drawing.Point(6, 20);
             this.Ammo.Name = "Ammo";
-            this.Ammo.Size = new System.Drawing.Size(281, 21);
+            this.Ammo.Size = new System.Drawing.Size(332, 21);
             this.Ammo.TabIndex = 0;
             this.Ammo.TextChanged += new System.EventHandler(this.AmmoFilter_TextChanged);
             // 
@@ -603,7 +617,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(306, 334);
+            this.tabPage8.Size = new System.Drawing.Size(357, 334);
             this.tabPage8.TabIndex = 4;
             this.tabPage8.Text = "Modules";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -612,7 +626,7 @@
             // 
             this.DroneControlConfig.Location = new System.Drawing.Point(6, 72);
             this.DroneControlConfig.Name = "DroneControlConfig";
-            this.DroneControlConfig.Size = new System.Drawing.Size(294, 27);
+            this.DroneControlConfig.Size = new System.Drawing.Size(345, 27);
             this.DroneControlConfig.TabIndex = 2;
             this.DroneControlConfig.Text = "DroneControl";
             this.DroneControlConfig.UseVisualStyleBackColor = true;
@@ -622,7 +636,7 @@
             // 
             this.AutoModuleConfig.Location = new System.Drawing.Point(6, 39);
             this.AutoModuleConfig.Name = "AutoModuleConfig";
-            this.AutoModuleConfig.Size = new System.Drawing.Size(294, 27);
+            this.AutoModuleConfig.Size = new System.Drawing.Size(345, 27);
             this.AutoModuleConfig.TabIndex = 1;
             this.AutoModuleConfig.Text = "AutoModule";
             this.AutoModuleConfig.UseVisualStyleBackColor = true;
@@ -632,11 +646,111 @@
             // 
             this.SecurityConfig.Location = new System.Drawing.Point(6, 6);
             this.SecurityConfig.Name = "SecurityConfig";
-            this.SecurityConfig.Size = new System.Drawing.Size(294, 27);
+            this.SecurityConfig.Size = new System.Drawing.Size(345, 27);
             this.SecurityConfig.TabIndex = 0;
             this.SecurityConfig.Text = "Security";
             this.SecurityConfig.UseVisualStyleBackColor = true;
             this.SecurityConfig.Click += new System.EventHandler(this.SecurityConfig_Click);
+            // 
+            // tabPage10
+            // 
+            this.tabPage10.Controls.Add(this.groupBox12);
+            this.tabPage10.Controls.Add(this.groupBox11);
+            this.tabPage10.Controls.Add(this.groupBox10);
+            this.tabPage10.Location = new System.Drawing.Point(4, 22);
+            this.tabPage10.Name = "tabPage10";
+            this.tabPage10.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage10.Size = new System.Drawing.Size(357, 334);
+            this.tabPage10.TabIndex = 6;
+            this.tabPage10.Text = "Profile";
+            this.tabPage10.UseVisualStyleBackColor = true;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.btnSaveProfile);
+            this.groupBox12.Controls.Add(this.textNewProfile);
+            this.groupBox12.Location = new System.Drawing.Point(6, 247);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(339, 81);
+            this.groupBox12.TabIndex = 3;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Create Profile";
+            // 
+            // btnSaveProfile
+            // 
+            this.btnSaveProfile.Location = new System.Drawing.Point(9, 47);
+            this.btnSaveProfile.Name = "btnSaveProfile";
+            this.btnSaveProfile.Size = new System.Drawing.Size(324, 23);
+            this.btnSaveProfile.TabIndex = 1;
+            this.btnSaveProfile.Text = "Create";
+            this.btnSaveProfile.UseVisualStyleBackColor = true;
+            this.btnSaveProfile.Click += new System.EventHandler(this.btnSaveProfile_Click);
+            // 
+            // textNewProfile
+            // 
+            this.textNewProfile.Location = new System.Drawing.Point(9, 20);
+            this.textNewProfile.Name = "textNewProfile";
+            this.textNewProfile.Size = new System.Drawing.Size(324, 21);
+            this.textNewProfile.TabIndex = 0;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.btnDeleteProfile);
+            this.groupBox11.Controls.Add(this.btnLoadProfile);
+            this.groupBox11.Controls.Add(this.listProfiles);
+            this.groupBox11.Location = new System.Drawing.Point(6, 51);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(345, 190);
+            this.groupBox11.TabIndex = 2;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Available Profiles";
+            // 
+            // btnDeleteProfile
+            // 
+            this.btnDeleteProfile.Location = new System.Drawing.Point(180, 160);
+            this.btnDeleteProfile.Name = "btnDeleteProfile";
+            this.btnDeleteProfile.Size = new System.Drawing.Size(159, 23);
+            this.btnDeleteProfile.TabIndex = 2;
+            this.btnDeleteProfile.Text = "Delete Profile";
+            this.btnDeleteProfile.UseVisualStyleBackColor = true;
+            this.btnDeleteProfile.Click += new System.EventHandler(this.btnDeleteProfile_Click);
+            // 
+            // btnLoadProfile
+            // 
+            this.btnLoadProfile.Location = new System.Drawing.Point(9, 160);
+            this.btnLoadProfile.Name = "btnLoadProfile";
+            this.btnLoadProfile.Size = new System.Drawing.Size(159, 23);
+            this.btnLoadProfile.TabIndex = 1;
+            this.btnLoadProfile.Text = "Load Profile";
+            this.btnLoadProfile.UseVisualStyleBackColor = true;
+            this.btnLoadProfile.Click += new System.EventHandler(this.btnLoadProfile_Click);
+            // 
+            // listProfiles
+            // 
+            this.listProfiles.FormattingEnabled = true;
+            this.listProfiles.Location = new System.Drawing.Point(9, 20);
+            this.listProfiles.Name = "listProfiles";
+            this.listProfiles.Size = new System.Drawing.Size(330, 134);
+            this.listProfiles.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.lblCurrentProfile);
+            this.groupBox10.Location = new System.Drawing.Point(6, 6);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(345, 39);
+            this.groupBox10.TabIndex = 1;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Current Profile";
+            // 
+            // lblCurrentProfile
+            // 
+            this.lblCurrentProfile.AutoSize = true;
+            this.lblCurrentProfile.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCurrentProfile.Location = new System.Drawing.Point(6, 17);
+            this.lblCurrentProfile.Name = "lblCurrentProfile";
+            this.lblCurrentProfile.Size = new System.Drawing.Size(0, 15);
+            this.lblCurrentProfile.TabIndex = 0;
             // 
             // Toggle
             // 
@@ -649,16 +763,11 @@
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.CheckedChanged += new System.EventHandler(this.Toggle_CheckedChanged);
             // 
-            // timer1
-            // 
-            this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // RatterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(334, 391);
+            this.ClientSize = new System.Drawing.Size(384, 391);
             this.Controls.Add(this.Toggle);
             this.Controls.Add(this.tabControl2);
             this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -698,6 +807,12 @@
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.tabPage8.ResumeLayout(false);
+            this.tabPage10.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -752,8 +867,17 @@
         private System.Windows.Forms.TrackBar WarpDistance;
         private System.Windows.Forms.CheckBox Tether;
         private System.Windows.Forms.TextBox TetherPilot;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.RichTextBox richConsole;
+        private System.Windows.Forms.TabPage tabPage10;
+        private System.Windows.Forms.ListBox listProfiles;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Label lblCurrentProfile;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.Button btnSaveProfile;
+        private System.Windows.Forms.TextBox textNewProfile;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.Button btnDeleteProfile;
+        private System.Windows.Forms.Button btnLoadProfile;
     }
 }
 

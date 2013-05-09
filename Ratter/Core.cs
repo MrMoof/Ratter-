@@ -580,7 +580,7 @@ namespace Ratter
             }
             else if (Config.SpeedTank && SpeedTank != null && SpeedTank.Exists)
             {
-                if (ActiveTarget != null && SpeedTank != ActiveTarget)
+                if (!Config.CombatTether && ActiveTarget != null && SpeedTank != ActiveTarget)
                 {
                     SpeedTank = ActiveTarget;
                 }
@@ -598,6 +598,7 @@ namespace Ratter
             {
                 if (Config.CombatTether)
                 {
+                    InnerSpaceAPI.InnerSpace.Echo("Combattether");
                     SpeedTank = Entity.All.FirstOrDefault(a => a.Name == Config.CombatTetherPilot);
                 }
                 else if (ActiveTarget != null)

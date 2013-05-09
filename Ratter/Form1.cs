@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using EveCom;
 using EveComFramework.Core;
 
@@ -14,7 +15,6 @@ namespace Ratter
 {
     public partial class RatterForm : Form
     {
-
         Core Bot = Core.Instance;
         RatterSettings Config = Core.Instance.Config;
         UIData UI = UIData.Instance;
@@ -69,12 +69,14 @@ namespace Ratter
 
             DropoffBookmark.Text = Config.DropoffBookmark;
             Ammo.Text = Config.Ammo;
+            lblCurrentProfile.Text = EveComFramework.Core.Config.Instance.DefaultProfile;
         }
 
         private void Ratter_Load(object sender, EventArgs e)
         {
             LoadSettings();
-            timer1.Start();
+            listProfiles.DataSource = Directory.GetFiles(Config.ConfigDirectory).Select(Path.GetFileNameWithoutExtension).ToList();
+            Anomalies.ItemChecked += Anomalies_ItemChecked;
         }
 
         private void Mode_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,12 +101,6 @@ namespace Ratter
         private void Tether_CheckedChanged(object sender, EventArgs e)
         {
             Config.MovementTether = Tether.Checked;
-            Config.Save();
-        }
-
-        private void TetherPilot_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Config.CombatTetherPilot = TetherPilot.Text;
             Config.Save();
         }
 
@@ -272,14 +268,6 @@ namespace Ratter
             Core.Instance.DroneControl.Configure();
         }
 
-        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-            if (UI.FleetMembers != null) TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.FleetMembers);
-            if (UI.Bookmarks != null) DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Bookmarks);
-            if (UI.Cargo != null) Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Cargo);
-        }
-
         private void Toggle_CheckedChanged(object sender, EventArgs e)
         {
             if (Toggle.Checked)
@@ -384,9 +372,65 @@ namespace Ratter
             Anomalies.ItemChecked += Anomalies_ItemChecked;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void btnSaveProfile_Click(object sender, EventArgs e)
+        {
+            if (textNewProfile.Text == "") return;
+            string newprofile = textNewProfile.Text;
+            EveComFramework.Core.Config.Instance.DefaultProfile = newprofile;
+            Config.ProfilePath = newprofile;
+            Core.Instance.Security.Config.ProfilePath = newprofile;
+            Core.Instance.AutoModule.Config.ProfilePath = newprofile;
+            Core.Instance.DroneControl.Config.ProfilePath = newprofile;
+            lblCurrentProfile.Text = newprofile;
+            Config.Save();
+            Core.Instance.Security.Config.Save();
+            Core.Instance.AutoModule.Config.Save();
+            Core.Instance.DroneControl.Config.Save();
+            listProfiles.DataSource = Directory.GetFiles(Config.ConfigDirectory).Select(Path.GetFileNameWithoutExtension).ToList();
+        }
+
+        private void btnLoadProfile_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(Config.ConfigDirectory + listProfiles.SelectedItem.ToString() + ".xml"))
+            {
+                string newprofile = listProfiles.SelectedItem.ToString();
+                EveComFramework.Core.Config.Instance.DefaultProfile = newprofile;
+                Config.ProfilePath = newprofile;
+                Core.Instance.Security.Config.ProfilePath = newprofile;
+                Core.Instance.AutoModule.Config.ProfilePath = newprofile;
+                Core.Instance.DroneControl.Config.ProfilePath = newprofile;
+                lblCurrentProfile.Text = newprofile;
+                Config.Load();
+                Core.Instance.Security.Config.Load();
+                Core.Instance.AutoModule.Config.Load();
+                Core.Instance.DroneControl.Config.Load();
+                LoadSettings();
+            }
+        }
+
+        private void btnDeleteProfile_Click(object sender, EventArgs e)
+        {
+            if (EveComFramework.Core.Config.Instance.DefaultProfile == listProfiles.SelectedItem.ToString())
+            {
+                MessageBox.Show("You cannot remove your current profile.");
+                return;
+            }
+            File.Delete(Config.ConfigDirectory + listProfiles.SelectedItem.ToString() + ".xml");
+            listProfiles.DataSource = Directory.GetFiles(Config.ConfigDirectory).Select(Path.GetFileNameWithoutExtension).ToList();
+        }
+
+        private void tabControl2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (UI.CharacterName != null) this.Text = String.Format("Ratter: {0}", UI.CharacterName);
+            if (UI.FleetMembers != null) TetherPilot.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.FleetMembers);
+            if (UI.Bookmarks != null) DropoffBookmark.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Bookmarks);
+            if (UI.Cargo != null) Ammo.AutoCompleteCustomSource = new MyAutoCompleteStringCollection(UI.Cargo);
+        }
+
+        private void TetherPilot_TextChanged(object sender, EventArgs e)
+        {
+            Config.CombatTetherPilot = TetherPilot.Text;
+            Config.Save();
         }
 
     }

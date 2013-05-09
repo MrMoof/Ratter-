@@ -126,7 +126,4 @@
   <data name="AmmoQuantity.Tag" xml:space="preserve">
     <value>Use this slider to indicate the cargo threshold above which to trigger a Dropoff.  This includes ALL cargo, so if you are filling your cargo hold with ammo during reloads, this should probably be set to 100%</value>
   </data>
-  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
 </root>
