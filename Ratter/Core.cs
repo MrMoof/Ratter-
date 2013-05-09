@@ -560,12 +560,15 @@ namespace Ratter
 
             if (Config.Squat)
             {
+                InnerSpaceAPI.InnerSpace.Echo("Squat");
                 if (FirstWreck == null || !FirstWreck.Exists)
                 {
+                    InnerSpaceAPI.InnerSpace.Echo("New wreck");
                     FirstWreck = Entity.All.FirstOrDefault(a => a.GroupID == Group.Wreck);
                 }
                 else if (!Config.SpeedTank)
                 {
+                    InnerSpaceAPI.InnerSpace.Echo("Move: " + FirstWreck.Name);
                     Move.Approach(FirstWreck, 1000);
                 }
             }
@@ -574,7 +577,7 @@ namespace Ratter
 
             #region SpeedTank
 
-            if (Config.Squat && FirstWreck != null && FirstWreck.Exists)
+            if (Config.Squat && Config.SpeedTank && FirstWreck != null && FirstWreck.Exists)
             {
                 Move.Orbit(FirstWreck, Config.SpeedTankRange * 1000);
             }
@@ -647,6 +650,16 @@ namespace Ratter
                     if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
                     {
                         MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherHeavyAssault && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
+                        return false;
+                    }
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherCruise && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
+                    {
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherCruise && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
+                        return false;
+                    }
+                    if (MyShip.Modules.Any(a => a.GroupID == Group.MissileLauncherTorpedo && !a.IsActive && !a.IsDeactivating && !a.IsReloading))
+                    {
+                        MyShip.Modules.Where(a => a.GroupID == Group.MissileLauncherTorpedo && !a.IsActive && !a.IsDeactivating && !a.IsReloading).ForEach(a => a.Activate(ActiveTarget));
                         return false;
                     }
                     if (MyShip.Modules.Any(a => a.GroupID == Group.HybridWeapon && !a.IsActive && !a.IsDeactivating && !a.IsReloading && a.MaxRange > ActiveTarget.Distance))
