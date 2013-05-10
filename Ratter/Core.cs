@@ -585,8 +585,8 @@ namespace Ratter
             if (Config.MovementTether && !Entity.All.Any(a => a.Name == Config.CombatTetherPilot))
             {
                 Console.Log("Tether pilot not on grid");
-                InsertState(VerifyRatLocation);
-                InsertState(MoveToNewRatLocation);
+                QueueState(MoveToNewRatLocation);
+                QueueState(VerifyRatLocation);
                 return true;
             }
 
