@@ -33,6 +33,8 @@ namespace Ratter
         public bool KeepAtRange = false;
         public bool MovementTether = false;
         public bool CombatTether = false;
+        public bool PrivateTargets = false;
+        public bool ShareTargets = false;
         public string CombatTetherPilot = "";
         public string DropoffBookmark = "";
         public string Ammo = "";
@@ -163,6 +165,7 @@ namespace Ratter
             NonFleetPlayers.AddNonFleetPlayers();
             Wrecks.AddQuery(a => a.GroupID == Group.Wreck && a.HaveLootRights);
             DefaultFrequency = 500;
+            RegisterCommands();
         }
 
         #endregion
@@ -187,6 +190,7 @@ namespace Ratter
         Entity ActiveTarget;
         string CurrentAnomaly = "";
         Dictionary<Entity, DateTime> TargetCooldown = new Dictionary<Entity, DateTime>();
+        Dictionary<long, long> ActiveTargetList = new Dictionary<long, long>();
 
         #endregion
 
@@ -204,7 +208,6 @@ namespace Ratter
             }
 
         }
-
 
         public void Stop()
         {
@@ -224,9 +227,36 @@ namespace Ratter
             QueueState(SecurityWait, -1, Trigger);
         }
 
+        public int ActiveTargetListUpdate(string[] args)
+        {
+            try
+            {
+                ActiveTargetList.AddOrUpdate(long.Parse(args[1]), long.Parse(args[2]));
+            }
+            catch { }
+
+            return 0;
+        }
+
+        public void RegisterCommands()
+        {
+            LavishScriptAPI.LavishScript.Commands.AddCommand("RatterUpdateActiveTargetList", ActiveTargetListUpdate);
+        }
+        
+        public void Test()
+        {
+            QueueState(test);
+        }
+
         #endregion
 
         #region States
+
+        bool test(object[] Params)
+        {
+            Console.Log("{0}", NonFleetPlayers.TargetList.Count);
+            return true;
+        }
 
         bool SecurityWait(object[] Params)
         {
@@ -462,6 +492,14 @@ namespace Ratter
                 WaitFor(20, () => Session.InSpace);
                 return true;
             }
+            if (Config.MovementTether && !Entity.All.Any(a => a.Name == Config.CombatTetherPilot))
+            {
+                Console.Log("Tether pilot not on grid");
+                InsertState(VerifyRatLocation);
+                InsertState(MoveToNewRatLocation);
+                return true;
+            }
+            Console.Log("Check non fleet members: {0}", NonFleetPlayers.TargetList.Count);
             if (NonFleetPlayers.TargetList.Count > 0)
             {
                 Console.Log("Non fleet members on overview");
@@ -544,6 +582,14 @@ namespace Ratter
                 return false;
             }
 
+            if (Config.MovementTether && !Entity.All.Any(a => a.Name == Config.CombatTetherPilot))
+            {
+                Console.Log("Tether pilot not on grid");
+                InsertState(VerifyRatLocation);
+                InsertState(MoveToNewRatLocation);
+                return true;
+            }
+
             if (Rats.TargetList.Count == 0 && !DroneControl.Busy.IsBusy)
             {
                 QueueState(RefreshBookmarks);
@@ -551,6 +597,8 @@ namespace Ratter
                 QueueState(CheckCargoHold);
                 return true;
             }
+
+
 
 
             // Ammo and cargo full check
@@ -687,13 +735,35 @@ namespace Ratter
                     List<double> MaxRanges = MyShip.Modules.Where(a => a.GroupID == Group.HybridWeapon || a.GroupID == Group.EnergyWeapon).Select(a => a.MaxRange).ToList();
                     foreach (double i in MaxRanges)
                     {
-                        ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => a.Distance < i);
+                        if (Config.PrivateTargets)
+                        {
+                            ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => a.Distance < i && !ActiveTargetList.ContainsValue(a.ID));
+                        }
+                        else
+                        {
+                            ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => a.Distance < i);
+                        }
                         if (ActiveTarget != null)
                         {
                             return false;
                         }
                     }
-                    ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
+                    if (Config.PrivateTargets)
+                    {
+                        ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault(a => !ActiveTargetList.ContainsValue(a.ID));
+                    }
+                    else
+                    {
+                        ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
+                    }
+                    if (ActiveTarget == null)
+                    {
+                        ActiveTarget = Rats.LockedAndLockingTargetList.FirstOrDefault();
+                    }
+                    if (ActiveTarget != null)
+                    {
+                        LavishScriptAPI.LavishScript.ExecuteCommand("relay \"all other\" -noredirect RatterUpdateActiveTargetList " + Me.CharID + " " + ActiveTarget.ID.ToString());
+                    }
                 }
             }
 

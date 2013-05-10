@@ -87,6 +87,7 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.lblCurrentProfile = new System.Windows.Forms.Label();
             this.Toggle = new System.Windows.Forms.CheckBox();
+            this.checkPrivateTargets = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabControl2.SuspendLayout();
@@ -368,6 +369,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkPrivateTargets);
             this.groupBox4.Controls.Add(this.KeepAtRange);
             this.groupBox4.Controls.Add(this.CombatTether);
             this.groupBox4.Controls.Add(this.SpeedTankRangeLabel);
@@ -764,6 +766,17 @@
             this.Toggle.UseVisualStyleBackColor = true;
             this.Toggle.CheckedChanged += new System.EventHandler(this.Toggle_CheckedChanged);
             // 
+            // checkPrivateTargets
+            // 
+            this.checkPrivateTargets.AutoSize = true;
+            this.checkPrivateTargets.Location = new System.Drawing.Point(229, 20);
+            this.checkPrivateTargets.Name = "checkPrivateTargets";
+            this.checkPrivateTargets.Size = new System.Drawing.Size(93, 17);
+            this.checkPrivateTargets.TabIndex = 8;
+            this.checkPrivateTargets.Text = "Private Targets";
+            this.checkPrivateTargets.UseVisualStyleBackColor = true;
+            this.checkPrivateTargets.CheckedChanged += new System.EventHandler(this.checkPrivateTargets_CheckedChanged);
+            // 
             // RatterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -879,6 +892,7 @@
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.Button btnDeleteProfile;
         private System.Windows.Forms.Button btnLoadProfile;
+        private System.Windows.Forms.CheckBox checkPrivateTargets;
     }
 }
 
