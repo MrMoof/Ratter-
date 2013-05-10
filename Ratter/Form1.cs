@@ -67,6 +67,7 @@ namespace Ratter
             SpeedTank.Checked = Config.SpeedTank;
             CombatTether.Checked = Config.CombatTether;
             KeepAtRange.Checked = Config.KeepAtRange;
+            checkPrivateTargets.Checked = Config.PrivateTargets;
 
             DropoffBookmark.Text = Config.DropoffBookmark;
             Ammo.Text = Config.Ammo;
@@ -431,6 +432,12 @@ namespace Ratter
         private void TetherPilot_TextChanged(object sender, EventArgs e)
         {
             Config.CombatTetherPilot = TetherPilot.Text;
+            Config.Save();
+        }
+
+        private void checkPrivateTargets_CheckedChanged(object sender, EventArgs e)
+        {
+            Config.PrivateTargets = checkPrivateTargets.Checked;
             Config.Save();
         }
 
